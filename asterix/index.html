@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Asterix Kanban board with Firebase storage" />
+  <title>Asterix Kanban</title>
+  <style>
+    :root {
+      --bg: #f3f5ed;
+      --panel: #ffffffd9;
+      --text: #1f2a1f;
+      --muted: #566252;
+      --line: #d6ddcf;
+      --accent: #355c3b;
+      --todo: #e8f4df;
+      --doing: #fff2d6;
+      --done: #ddeff8;
+      --shadow: 0 12px 32px rgba(37, 48, 31, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, #e6f4d8 0%, transparent 45%),
+        radial-gradient(circle at 80% 10%, #f7ead0 0%, transparent 35%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: 0.02em;
+    }
+
+    a {
+      color: var(--accent);
+      text-underline-offset: 2px;
+      font-weight: 600;
+    }
+
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .composer {
+      margin: 20px 0 24px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      backdrop-filter: blur(4px);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 130px 150px 110px;
+      gap: 10px;
+    }
+
+    input, select, button {
+      border-radius: 10px;
+      border: 1px solid #bec8b6;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+
+    input[type="color"] {
+      padding: 4px;
+      min-height: 42px;
+    }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      filter: brightness(0.95);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .column {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .column h2 {
+      margin: 0;
+      padding: 12px 14px;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .column[data-status="todo"] h2 { background: var(--todo); }
+    .column[data-status="inprogress"] h2 { background: var(--doing); }
+    .column[data-status="done"] h2 { background: var(--done); }
+
+    .cards {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      min-height: 160px;
+    }
+
+    .card {
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid rgba(31, 42, 31, 0.16);
+      box-shadow: 0 8px 20px rgba(31, 42, 31, 0.08);
+      animation: enter 0.2s ease;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .topic {
+      background: #ffffff8c;
+      border: 1px solid rgba(31, 42, 31, 0.12);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.8rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .actions button {
+      padding: 6px 8px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .actions .muted {
+      background: #5f6d5f;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 20px 8px;
+      border: 1px dashed #c7d0bf;
+      border-radius: 10px;
+      background: #fafcf8;
+    }
+
+    @keyframes enter {
+      from { transform: translateY(4px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 960px) {
+      .composer {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .board {
+        grid-template-columns: 1fr;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div>
+        <h1>Asterix Kanban</h1>
+        <p class="sub">Boards are saved to Firebase Firestore in real time.</p>
+      </div>
+      <a href="/">Back to Home</a>
+    </div>
+
+    <form id="board-form" class="composer">
+      <input id="title" type="text" placeholder="Board title" required />
+      <input id="topics" type="text" placeholder="Topics (comma separated)" />
+      <input id="color" type="color" value="#CFE8B4" />
+      <select id="status">
+        <option value="todo">To Do</option>
+        <option value="inprogress">In Progress</option>
+        <option value="done">Done</option>
+      </select>
+      <button type="submit">Add Board</button>
+    </form>
+
+    <section class="board">
+      <article class="column" data-status="todo">
+        <h2>To Do</h2>
+        <div class="cards" id="todo-cards"></div>
+      </article>
+      <article class="column" data-status="inprogress">
+        <h2>In Progress</h2>
+        <div class="cards" id="inprogress-cards"></div>
+      </article>
+      <article class="column" data-status="done">
+        <h2>Done</h2>
+        <div class="cards" id="done-cards"></div>
+      </article>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      projectId: "personal-website-2026",
+      appId: "1:1023121345584:web:2e43f8c7315a9effc431f5",
+      storageBucket: "personal-website-2026.firebasestorage.app",
+      apiKey: "AIzaSyBeEqI-lyda83oyGSlpX108pW123yxE1e4",
+      authDomain: "personal-website-2026.firebaseapp.com",
+      messagingSenderId: "1023121345584",
+      projectNumber: "1023121345584",
+      version: "2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const boardsRef = collection(db, "asterixBoards");
+
+    const STATUSES = ["todo", "inprogress", "done"];
+    const form = document.getElementById("board-form");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const title = document.getElementById("title").value.trim();
+      const topicsRaw = document.getElementById("topics").value.trim();
+      const color = document.getElementById("color").value || "#CFE8B4";
+      const status = document.getElementById("status").value;
+
+      if (!title || !STATUSES.includes(status)) {
+        return;
+      }
+
+      const topics = topicsRaw
+        ? topicsRaw.split(",").map((topic) => topic.trim()).filter(Boolean)
+        : [];
+
+      await addDoc(boardsRef, {
+        title,
+        topics,
+        color,
+        status,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+
+      form.reset();
+      document.getElementById("color").value = "#CFE8B4";
+    });
+
+    function shiftStatus(current, direction) {
+      const index = STATUSES.indexOf(current);
+      const nextIndex = index + direction;
+      if (nextIndex < 0 || nextIndex >= STATUSES.length) {
+        return current;
+      }
+      return STATUSES[nextIndex];
+    }
+
+    async function moveBoard(id, currentStatus, direction) {
+      const nextStatus = shiftStatus(currentStatus, direction);
+      if (nextStatus === currentStatus) {
+        return;
+      }
+      await updateDoc(doc(db, "asterixBoards", id), {
+        status: nextStatus,
+        updatedAt: serverTimestamp()
+      });
+    }
+
+    async function removeBoard(id) {
+      await deleteDoc(doc(db, "asterixBoards", id));
+    }
+
+    function cardElement(board) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.background = board.color || "#EAF5DE";
+
+      const title = document.createElement("h3");
+      title.textContent = board.title || "Untitled";
+      card.appendChild(title);
+
+      const topics = document.createElement("div");
+      topics.className = "topics";
+      (board.topics || []).forEach((topic) => {
+        const tag = document.createElement("span");
+        tag.className = "topic";
+        tag.textContent = topic;
+        topics.appendChild(tag);
+      });
+      if ((board.topics || []).length === 0) {
+        const fallback = document.createElement("span");
+        fallback.className = "topic";
+        fallback.textContent = "No topics";
+        topics.appendChild(fallback);
+      }
+      card.appendChild(topics);
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const left = document.createElement("button");
+      left.className = "muted";
+      left.type = "button";
+      left.textContent = "← Move";
+      left.disabled = board.status === "todo";
+      left.addEventListener("click", () => moveBoard(board.id, board.status, -1));
+
+      const right = document.createElement("button");
+      right.className = "muted";
+      right.type = "button";
+      right.textContent = "Move →";
+      right.disabled = board.status === "done";
+      right.addEventListener("click", () => moveBoard(board.id, board.status, 1));
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Delete";
+      remove.addEventListener("click", () => removeBoard(board.id));
+
+      actions.append(left, right, remove);
+      card.appendChild(actions);
+      return card;
+    }
+
+    function render(boards) {
+      STATUSES.forEach((status) => {
+        const container = document.getElementById(status + "-cards");
+        container.innerHTML = "";
+        const statusBoards = boards.filter((board) => board.status === status);
+
+        if (statusBoards.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = "No boards yet";
+          container.appendChild(empty);
+          return;
+        }
+
+        statusBoards.forEach((board) => container.appendChild(cardElement(board)));
+      });
+    }
+
+    const boardsQuery = query(boardsRef, orderBy("createdAt", "asc"));
+    onSnapshot(boardsQuery, (snapshot) => {
+      const boards = snapshot.docs.map((entry) => ({ id: entry.id, ...entry.data() }));
+      render(boards);
+    });
+  </script>
+</body>
+</html>
