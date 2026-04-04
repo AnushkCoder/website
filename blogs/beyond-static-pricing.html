@@ -261,13 +261,13 @@
 
 <!-- ============================== -->
 
-<p>Autonomous AI agents are beginning to transact with each other at scale — purchasing compute, querying APIs, settling micropayments — all without human intervention. The payment infrastructure for this is maturing rapidly. What has received less attention is the <em>market design</em> layer: the mechanisms that determine how prices are discovered, how surplus is allocated, and whether the resulting outcomes are efficient. I want to argues that the static, posted-price model inherited from human-facing API commerce is structurally inadequate for agent economies, and that well-understood auction mechanisms — particularly Vickrey auctions and multi-attribute scoring rules — can be embedded into existing payment protocols to achieve Pareto-superior outcomes at machine speed.</p>
+<p>Autonomous AI agents are beginning to transact with each other at scale: purchasing compute, querying APIs, settling micropayments. All without human intervention. The payment infrastructure for this is maturing rapidly. What has received less attention is the <em>market design</em> layer: the mechanisms that determine how prices are discovered, how surplus is allocated, and whether the resulting outcomes are efficient. I want to argue that the static, posted-price model inherited from human-facing API commerce is structurally inadequate for agent economies. Well-understood auction mechanisms, particularly Vickrey auctions and multi-attribute scoring rules, can be embedded into existing payment protocols to achieve Pareto-superior outcomes at machine speed.</p>
 
 <hr class="section-rule">
 
 <h2>Machine Payment Protocol</h2>
 
-<p>The Machine Payment Protocol (MPP) establishes a minimal, trust-minimized transaction layer for autonomous AI agents. The interaction model is straightforward:</p>
+<p>The Machine Payment Protocol (MPP) launched on March 18th 2026 establishes a minimal, trust-minimized transaction layer for autonomous AI agents. The interaction model is straightforward:</p>
 
 <ol>
   <li><strong>Request Phase.</strong> A buyer agent dispatches a service request — image generation, geospatial lookup, text completion, or any computationally packaged good.</li>
@@ -278,7 +278,7 @@
 
 <p>This four-step handshake mirrors classical bilateral exchange: offer, acceptance, consideration, performance. MPP is open-standard and payment-rail agnostic — it supports stablecoins, card-based payments (via the Visa card specification), and fiat settlement through processors like Stripe. The protocol is built around idempotency, cryptographic receipts, and proof-of-delivery as first-class primitives.</p>
 
-<p>MPP solves the settlement problem cleanly. But settlement is only one layer of a functioning market. When a buyer agent faces a single seller at a posted price, the transaction is a binary decision — pay or don't. There is no price discovery, no competition, and no mechanism for the market to surface the efficient price. The question this paper addresses is what happens above the settlement layer: how should agents discover prices, and what mechanisms produce the best outcomes when the market has more than two participants?</p>
+<p>MPP solves the settlement problem cleanly. But settlement is only one layer of a functioning market. When a buyer agent faces a single seller at a posted price, the transaction is a binary decision — pay or don't. There is no price discovery, no competition, and no mechanism for the market to surface the efficient price. The question I plan to pose is what happens above the settlement layer: how should agents discover prices, and what mechanisms produce the best outcomes when the market has more than two participants?</p>
 
 <hr class="section-rule">
 
