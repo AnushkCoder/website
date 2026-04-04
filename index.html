@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Anushk Pokharna - Founder &amp; CEO at AdaLabs" />
+  <meta name="description" content="Anushk Pokharna - Founder &amp; CEO at ADAPlabs" />
   <title>Anushk Pokharna</title>
   <style>
     :root {
@@ -85,97 +85,6 @@
       margin: 20px 0;
     }
 
-    .todo-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      margin-top: 8px;
-      border: 1px solid var(--line);
-    }
-
-    .todo-table th,
-    .todo-table td {
-      border: 1px solid var(--line);
-      vertical-align: top;
-      padding: 12px;
-    }
-
-    .todo-table th {
-      text-align: left;
-      background: #f8f8f8;
-    }
-
-    .column-tools {
-      margin: 0 0 12px;
-      display: flex;
-      gap: 8px;
-    }
-
-    .column-tools input,
-    .card-add-subtask input {
-      flex: 1;
-      min-width: 0;
-      border: 1px solid #d2d2d2;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font: inherit;
-    }
-
-    .column-tools button,
-    .card-add-subtask button {
-      border: 0;
-      border-radius: 8px;
-      padding: 8px 10px;
-      cursor: pointer;
-      font: inherit;
-      background: #111;
-      color: #fff;
-    }
-
-    .cards {
-      display: grid;
-      gap: 10px;
-    }
-
-    .todo-card {
-      border: 1px solid #d9d9d9;
-      border-radius: 10px;
-      padding: 10px;
-      background: #fff;
-    }
-
-    .todo-card ul {
-      margin: 10px 0 0;
-      padding-left: 0;
-      list-style: none;
-    }
-
-    .todo-card li {
-      margin: 0 0 8px;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .todo-card li.done span {
-      text-decoration: line-through;
-      color: var(--muted);
-    }
-
-    .card-add-subtask {
-      margin-top: 10px;
-      display: flex;
-      gap: 8px;
-    }
-
-    .empty {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      font-style: italic;
-    }
-
     .blog-list {
       margin: 0;
       padding-left: 0;
@@ -195,35 +104,16 @@
       text-decoration: underline;
     }
 
-    @media (max-width: 700px) {
-      .todo-table,
-      .todo-table tbody,
-      .todo-table tr,
-      .todo-table th,
-      .todo-table td {
-        display: block;
-        width: 100%;
-      }
-
-      .todo-table tr {
-        border-bottom: 1px solid var(--line);
-      }
-
-      .todo-table th {
-        border-bottom: 0;
-      }
-    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <h1>Anushk Pokharna</h1>
-    <p>Founder &amp; CEO at AdaLabs. I work on practical AI and blockchain products.</p>
+    <p>Founder &amp; CEO at ADAPlabs. I work on practical AI and blockchain products.</p>
 
     <div class="links">
-      <a href="https://adaplabs.com/anushk-pokharna" target="_blank" rel="noopener noreferrer">AdaLabs Profile</a>
+      <a href="https://adaplabs.com/anushk-pokharna" target="_blank" rel="noopener noreferrer">ADAPlabs Profile</a>
       <a href="https://github.com/AnushkCoder" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/asterix/">Asterix Kanban</a>
     </div>
 
     <hr />
@@ -253,210 +143,11 @@
       <li><a href="/blogs/beyond-static-pricing.html">Auction Mechanisms and Welfare Optimization in Machine Payment Protocols</a></li>
     </ul>
 
-    <h2>To-Do Table</h2>
-    <table class="todo-table" aria-label="Anushk and Aarjav to-do table">
-      <thead>
-        <tr>
-          <th scope="col">Anushk</th>
-          <th scope="col">Aarjav</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <form class="column-tools" data-owner="Anushk">
-              <input type="text" name="cardTitle" placeholder="Add card for Anushk" required />
-              <button type="submit">Add Card</button>
-            </form>
-            <div id="Anushk-cards" class="cards"></div>
-          </td>
-          <td>
-            <form class="column-tools" data-owner="Aarjav">
-              <input type="text" name="cardTitle" placeholder="Add card for Aarjav" required />
-              <button type="submit">Add Card</button>
-            </form>
-            <div id="Aarjav-cards" class="cards"></div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
     <p class="muted" style="margin-top: 28px;">© <span id="year"></span> Anushk Pokharna</p>
   </main>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    const STORAGE_KEY = "two-person-todo-board-v1";
-    const owners = ["Anushk", "Aarjav"];
-
-    function cloneDefaultState() {
-      return { Anushk: [], Aarjav: [] };
-    }
-
-    function makeId() {
-      if (window.crypto && typeof window.crypto.randomUUID === "function") {
-        return window.crypto.randomUUID();
-      }
-      return String(Date.now() + Math.random());
-    }
-
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return cloneDefaultState();
-      }
-      try {
-        const parsed = JSON.parse(raw);
-        return {
-          Anushk: Array.isArray(parsed.Anushk) ? parsed.Anushk : [],
-          Aarjav: Array.isArray(parsed.Aarjav) ? parsed.Aarjav : []
-        };
-      } catch (error) {
-        return cloneDefaultState();
-      }
-    }
-
-    let state = loadState();
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function addCard(owner, title) {
-      state[owner].push({
-        id: makeId(),
-        title,
-        subtasks: []
-      });
-      saveState();
-      render();
-    }
-
-    function addSubtask(owner, cardId, text) {
-      const card = state[owner].find((item) => item.id === cardId);
-      if (!card) {
-        return;
-      }
-      card.subtasks.push({ id: makeId(), text, done: false });
-      saveState();
-      render();
-    }
-
-    function toggleSubtask(owner, cardId, subtaskId, done) {
-      const card = state[owner].find((item) => item.id === cardId);
-      if (!card) {
-        return;
-      }
-      const subtask = card.subtasks.find((item) => item.id === subtaskId);
-      if (!subtask) {
-        return;
-      }
-      subtask.done = done;
-      saveState();
-      render();
-    }
-
-    function createCardElement(owner, card) {
-      const cardElement = document.createElement("article");
-      cardElement.className = "todo-card";
-
-      const title = document.createElement("h3");
-      title.textContent = card.title;
-      cardElement.appendChild(title);
-
-      const subtaskList = document.createElement("ul");
-      if (!Array.isArray(card.subtasks) || card.subtasks.length === 0) {
-        const placeholder = document.createElement("p");
-        placeholder.className = "empty";
-        placeholder.textContent = "No subtasks yet.";
-        cardElement.appendChild(placeholder);
-      } else {
-        card.subtasks.forEach((subtask) => {
-          const item = document.createElement("li");
-          if (subtask.done) {
-            item.classList.add("done");
-          }
-
-          const checkbox = document.createElement("input");
-          checkbox.type = "checkbox";
-          checkbox.checked = !!subtask.done;
-          checkbox.addEventListener("change", () => {
-            toggleSubtask(owner, card.id, subtask.id, checkbox.checked);
-          });
-
-          const text = document.createElement("span");
-          text.textContent = subtask.text;
-
-          item.append(checkbox, text);
-          subtaskList.appendChild(item);
-        });
-        cardElement.appendChild(subtaskList);
-      }
-
-      const form = document.createElement("form");
-      form.className = "card-add-subtask";
-
-      const input = document.createElement("input");
-      input.type = "text";
-      input.required = true;
-      input.placeholder = "Add subtask";
-
-      const button = document.createElement("button");
-      button.type = "submit";
-      button.textContent = "Add";
-
-      form.append(input, button);
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const text = input.value.trim();
-        if (!text) {
-          return;
-        }
-        addSubtask(owner, card.id, text);
-      });
-
-      cardElement.appendChild(form);
-      return cardElement;
-    }
-
-    function renderOwner(owner) {
-      const container = document.getElementById(owner + "-cards");
-      container.innerHTML = "";
-      const cards = state[owner];
-
-      if (!cards.length) {
-        const empty = document.createElement("p");
-        empty.className = "empty";
-        empty.textContent = "No cards yet.";
-        container.appendChild(empty);
-        return;
-      }
-
-      cards.forEach((card) => {
-        container.appendChild(createCardElement(owner, card));
-      });
-    }
-
-    function render() {
-      owners.forEach(renderOwner);
-    }
-
-    document.querySelectorAll(".column-tools").forEach((form) => {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const owner = form.getAttribute("data-owner");
-        const input = form.querySelector("input[name='cardTitle']");
-        const title = input.value.trim();
-        if (!owners.includes(owner) || !title) {
-          return;
-        }
-        addCard(owner, title);
-        input.value = "";
-      });
-    });
-
-    render();
   </script>
 </body>
 </html>
