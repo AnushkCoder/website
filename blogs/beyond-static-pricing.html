@@ -222,6 +222,21 @@
     margin-top: 24px;
   }
 
+  /* TLDR */
+  .tldr {
+    background: var(--sidebar-bg);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin: 32px 0 48px 0;
+    font-size: 17px;
+    line-height: 1.68;
+  }
+
+  .tldr strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
   /* Responsive */
   @media (max-width: 600px) {
     .container { padding: 48px 18px 80px; }
@@ -237,8 +252,12 @@
   <div class="kicker">Mechanism Design &times; Agent Commerce</div>
   <h1>Auction Mechanisms and Welfare Optimization in Machine Payment Protocols</h1>
   <p class="subtitle">How real-time multi-agent auctions can replace fixed API pricing and unlock Pareto-superior outcomes in autonomous machine-to-machine commerce.</p>
-  <p class="meta">Working draft &middot; April 2026</p>
+  <p class="meta">April 2026</p>
 </header>
+
+<div class="tldr">
+  <strong>TL;DR:</strong> Static API pricing is fundamentally inadequate for autonomous agent commerce. By embedding Vickrey auctions and multi-attribute scoring rules into the Machine Payment Protocol, agents can discover efficient prices in real-time. The infrastructure is ready; the mechanism layer is what's missing.
+</div>
 
 <!-- ============================== -->
 
