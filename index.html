@@ -176,6 +176,25 @@
       font-style: italic;
     }
 
+    .blog-list {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .blog-list li {
+      margin: 0 0 12px;
+    }
+
+    .blog-list a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .blog-list a:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 700px) {
       .todo-table,
       .todo-table tbody,
@@ -227,6 +246,11 @@
       <li>Applied AI products for real workflows.</li>
       <li>Enterprise AI implementation and adoption.</li>
       <li>Founder-led product and engineering execution.</li>
+    </ul>
+
+    <h2>Blogs</h2>
+    <ul class="blog-list">
+      <li><a href="/blogs/beyond-static-pricing.html">Auction Mechanisms and Welfare Optimization in Machine Payment Protocols</a></li>
     </ul>
 
     <h2>To-Do Table</h2>

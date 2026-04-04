@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auction Mechanisms and Welfare Optimization in Machine Payment Protocols</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f5;
+    --fg: #1a1a18;
+    --fg-muted: #5c5a54;
+    --accent: #b44a2d;
+    --accent-light: #e8d5cc;
+    --rule: #d4d0c8;
+    --code-bg: #f0ece6;
+    --sidebar-bg: #f5f1eb;
+    --font-body: 'Newsreader', Georgia, serif;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --max-w: 700px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 40px;
+  }
+
+  .header .kicker {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--fg);
+  }
+
+  .subtitle {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+  }
+
+  .meta {
+    margin-top: 24px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+
+  /* Sections */
+  h2 {
+    font-family: var(--font-body);
+    font-size: 26px;
+    font-weight: 500;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    color: var(--fg);
+  }
+
+  p {
+    margin-bottom: 18px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin-bottom: 18px;
+    padding-left: 24px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  li strong {
+    color: var(--fg);
+  }
+
+  /* Math blocks */
+  .math-block {
+    background: var(--code-bg);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-x: auto;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Inline code */
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* Callout / sidebar boxes */
+  .callout {
+    background: var(--sidebar-bg);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    margin: 32px 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .callout p:last-child {
+    margin-bottom: 0;
+  }
+
+  .callout .callout-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  /* Emphasis */
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  /* Footer */
+  .footer-note {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-style: italic;
+    color: var(--fg-muted);
+    font-size: 16px;
+  }
+
+  /* Toggle / details */
+  details.economist-toggle {
+    margin: 36px 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  details.economist-toggle summary {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 24px;
+    cursor: pointer;
+    background: var(--sidebar-bg);
+    color: var(--accent);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+
+  details.economist-toggle summary:hover {
+    background: var(--accent-light);
+  }
+
+  details.economist-toggle summary::-webkit-details-marker { display: none; }
+
+  details.economist-toggle summary::before {
+    content: '▸';
+    font-size: 13px;
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+
+  details.economist-toggle[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  details.economist-toggle .toggle-content {
+    padding: 8px 24px 32px;
+  }
+
+  details.economist-toggle .toggle-content h3:first-child {
+    margin-top: 24px;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .container { padding: 48px 18px 80px; }
+    body { font-size: 17px; }
+    h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<article class="container">
+
+<header class="header">
+  <div class="kicker">Mechanism Design &times; Agent Commerce</div>
+  <h1>Auction Mechanisms and Welfare Optimization in Machine Payment Protocols</h1>
+  <p class="subtitle">How real-time multi-agent auctions can replace fixed API pricing and unlock Pareto-superior outcomes in autonomous machine-to-machine commerce.</p>
+  <p class="meta">Working draft &middot; April 2026</p>
+</header>
+
+<!-- ============================== -->
+
+<p>Autonomous AI agents are beginning to transact with each other at scale — purchasing compute, querying APIs, settling micropayments — all without human intervention. The payment infrastructure for this is maturing rapidly. What has received less attention is the <em>market design</em> layer: the mechanisms that determine how prices are discovered, how surplus is allocated, and whether the resulting outcomes are efficient. I want to argues that the static, posted-price model inherited from human-facing API commerce is structurally inadequate for agent economies, and that well-understood auction mechanisms — particularly Vickrey auctions and multi-attribute scoring rules — can be embedded into existing payment protocols to achieve Pareto-superior outcomes at machine speed.</p>
+
+<hr class="section-rule">
+
+<h2>Machine Payment Protocol</h2>
+
+<p>The Machine Payment Protocol (MPP) establishes a minimal, trust-minimized transaction layer for autonomous AI agents. The interaction model is straightforward:</p>
+
+<ol>
+  <li><strong>Request Phase.</strong> A buyer agent dispatches a service request — image generation, geospatial lookup, text completion, or any computationally packaged good.</li>
+  <li><strong>Quote Phase.</strong> The seller agent responds with a price signal and payment terms.</li>
+  <li><strong>Settlement Phase.</strong> The buyer agent presents a cryptographic payment token — a signed proof-of-funds or a settled on-chain transaction — to the seller.</li>
+  <li><strong>Delivery Phase.</strong> Upon verification, the seller releases the payload.</li>
+</ol>
+
+<p>This four-step handshake mirrors classical bilateral exchange: offer, acceptance, consideration, performance. MPP is open-standard and payment-rail agnostic — it supports stablecoins, card-based payments (via the Visa card specification), and fiat settlement through processors like Stripe. The protocol is built around idempotency, cryptographic receipts, and proof-of-delivery as first-class primitives.</p>
+
+<p>MPP solves the settlement problem cleanly. But settlement is only one layer of a functioning market. When a buyer agent faces a single seller at a posted price, the transaction is a binary decision — pay or don't. There is no price discovery, no competition, and no mechanism for the market to surface the efficient price. The question this paper addresses is what happens above the settlement layer: how should agents discover prices, and what mechanisms produce the best outcomes when the market has more than two participants?</p>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>The Problem with Fixed Pricing in Agent Economies</h2>
+
+<p>Today, API pricing is almost universally <em>static and uniform</em>. Whether you are a hobbyist querying a maps endpoint once a day or a logistics company making ten thousand calls per hour, the marginal price per request is identical (modulo volume discounts negotiated out-of-band by humans). This is a blunt instrument.</p>
+
+<p>Static pricing fails to capture several critical dimensions of heterogeneity:</p>
+
+<ul>
+  <li><strong>Buyer-side heterogeneity in willingness-to-pay.</strong> An agent orchestrating a revenue-critical pipeline values low-latency, high-fidelity image generation differently than an agent running exploratory prototyping.</li>
+  <li><strong>Seller-side heterogeneity in marginal cost.</strong> Providers operating at different capacity utilizations, on different hardware, in different regions, face fundamentally different cost curves at any given moment.</li>
+  <li><strong>Temporal variation in supply and demand.</strong> Compute markets exhibit pronounced diurnal and seasonal load patterns. A fixed price cannot clear a market efficiently when both supply and demand curves shift intra-hour.</li>
+</ul>
+
+<p>The result is deadweight loss. Trades that would be mutually beneficial at some price <em>p</em> within the interval <em>(marginal cost, willingness-to-pay)</em> never execute because the posted price falls outside that interval for at least one party. The market leaves welfare on the table.</p>
+
+<div class="callout">
+  <div class="callout-label">The scale of the gap</div>
+  <p>This is not a hypothetical inefficiency. Every API marketplace today — compute, inference, data, geolocation — operates with the same flat-rate pricing structure that predates the existence of autonomous agents entirely. The pricing model was designed for human developers reading a docs page; it was never designed for agents that can evaluate fifty competing offers in the time it takes a human to read a price tag. The infrastructure is ready for something better. The mechanism layer is what's missing.</p>
+</div>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>Thickening the Market: From Bilateral Exchange to Multi-Agent Auctions</h2>
+
+<p>Now consider the natural extension of MPP: a buyer agent that, upon needing a service, does not query a single seller but instead broadcasts a <em>request-for-quote</em> to <em>n</em> competing seller agents — each representing a different provider, each with distinct cost structures, capacity constraints, and strategic objectives defined by their respective organizational policies.</p>
+
+<p>This is no longer bilateral exchange. This is a <em>mechanism design problem</em>.</p>
+
+<p>The agents operate at machine speed. Latency between request and delivery can be measured in milliseconds. This temporal compression creates a design space that is practically inaccessible to human-mediated markets: the buyer agent can instantiate a <strong>sandboxed auction environment</strong>, invite <em>n</em> seller agents, execute a multi-round procurement auction, and settle the winning bid — all within the time horizon that a traditional API call would take to return a response.</p>
+
+<p>Note what this implies for anyone building on MPP today: the protocol's existing quote-settle loop already supports the timing budget for a full auction round-trip. The structural work is in the broadcast and bid-aggregation layer — not in re-engineering settlement.</p>
+
+<details class="economist-toggle">
+<summary>Appendix A: Formal Model, Mechanism Selection &amp; Welfare Proofs</summary>
+<div class="toggle-content">
+
+<h3>Formal Setup</h3>
+
+<p>Let there be one buyer agent <em>B</em> with private valuation <em>v<sub>B</sub></em> for a service <em>S</em>, and <em>n</em> seller agents {<em>S<sub>1</sub>, S<sub>2</sub>, …, S<sub>n</sub></em>}, each with private marginal cost <em>c<sub>i</sub></em> for providing <em>S</em>. Each seller <em>S<sub>i</sub></em> operates under a policy constraint set 𝒫<sub>i</sub> defined by its principal (the company deploying the agent), which may encode:</p>
+
+<ul>
+  <li>A <strong>reservation price</strong> <em>r<sub>i</sub> ≥ c<sub>i</sub></em>: the minimum price the agent is authorized to accept.</li>
+  <li>A <strong>customer lifetime value function</strong> CLV<sub>i</sub>(·): a mapping from buyer identity or type to the expected discounted future revenue from establishing a relationship, incentivizing below-cost bidding for high-value prospects.</li>
+  <li>A <strong>capacity utilization target</strong> <em>u<sub>i</sub>*</em>: influencing the agent's willingness to accept marginal work at lower margins during off-peak periods.</li>
+  <li>A <strong>reputation and quality signal</strong> <em>q<sub>i</sub></em>: reflecting historical service quality, latency percentiles, and reliability.</li>
+</ul>
+
+<p>The buyer's objective is to minimize procurement cost subject to a minimum quality threshold <em>q̄</em>:</p>
+
+<div class="math-block">
+  min<sub>i ∈ {1,…,n}</sub> p<sub>i</sub> &nbsp;&nbsp; s.t. &nbsp;&nbsp; q<sub>i</sub> ≥ q̄
+</div>
+
+<p>The sellers' objectives are to maximize individual surplus (<em>p<sub>i</sub> − c<sub>i</sub></em>) subject to their policy constraint set 𝒫<sub>i</sub>.</p>
+
+<h3>Mechanism Choice</h3>
+
+<p>The choice of auction mechanism is non-trivial and has direct welfare implications.</p>
+
+<p><strong>Sealed-bid first-price auction.</strong> Each seller submits a single bid. The buyer selects the lowest bid meeting quality constraints. Sellers shade their bids above marginal cost — the equilibrium bid function depends on the distribution of competitors' costs, leading to well-studied Bayesian Nash Equilibria. Revenue (savings for the buyer) is sensitive to the number of bidders and the cost distribution.</p>
+
+<p><strong>Sealed-bid second-price (Vickrey) auction.</strong> The lowest bidder wins but is paid the second-lowest bid. This mechanism is <em>incentive-compatible</em>: each seller's dominant strategy is to bid their true cost (adjusted for policy constraints). The buyer benefits from truthful revelation, and the mechanism is allocatively efficient — the lowest-cost provider always wins.</p>
+
+<p><strong>Descending (Dutch) clock auction.</strong> The buyer starts with a high price and decrements. The first seller to accept wins at that price. Strategically equivalent to the first-price sealed-bid auction, but the sequential structure allows for real-time observation of competitor behavior in repeated interactions, enabling learning dynamics.</p>
+
+<p><strong>Multi-attribute auction.</strong> When services are <em>not</em> perfectly substitutable — when sellers differentiate on latency, resolution, accuracy, or other quality dimensions — the buyer can run a scoring auction, evaluating bids on a composite scoring rule σ(<em>p<sub>i</sub>, q<sub>i</sub>, l<sub>i</sub>, …</em>) that weights price against service attributes.</p>
+
+<p>For the MPP context, the <strong>Vickrey mechanism</strong> has compelling properties: dominant-strategy incentive compatibility eliminates the computational burden of equilibrium bid calculation, and it maximizes allocative efficiency. However, in repeated interactions (which agent-to-agent commerce will inevitably be), sellers may learn to tacitly collude, eroding the buyer's surplus. Mechanism rotation or reserve price randomization may be necessary to maintain competitive pressure.</p>
+
+<div class="callout">
+  <div class="callout-label">Implementation note</div>
+  <p>A Vickrey auction over MPP does not require a new protocol — it requires a thin orchestration layer that (a) broadcasts a parameterized RFQ, (b) collects sealed bids within a timeout window, and (c) selects the winner and sets payment at the second-lowest bid before handing off to MPP's existing settlement phase. The surface area of new code is small. The economic leverage is large.</p>
+</div>
+
+<h3>Welfare Analysis: Why This Matters</h3>
+
+<p>The shift from static posted pricing to dynamic auction-based procurement is not merely an optimization. It is a structural improvement in market efficiency.</p>
+
+<p>Under static pricing, total welfare <em>W</em> in any transaction is:</p>
+
+<div class="math-block">
+  W<sub>static</sub> = v<sub>B</sub> − p<sub>posted</sub>
+</div>
+
+<p>if <em>v<sub>B</sub> ≥ p<sub>posted</sub></em>, and zero otherwise. The seller's surplus is (<em>p<sub>posted</sub> − c<sub>i</sub></em>), which is invariant to buyer type.</p>
+
+<p>Under a Vickrey auction with <em>n</em> sellers:</p>
+
+<div class="math-block">
+  W<sub>auction</sub> = v<sub>B</sub> − c<sub>(1)</sub>
+</div>
+
+<p>where <em>c<sub>(1)</sub></em> is the lowest order statistic of the cost distribution. The total surplus is maximized (first-best allocation), and the surplus is split between the buyer (who pays <em>c<sub>(2)</sub></em>, the second-lowest cost) and the winning seller (who earns <em>c<sub>(2)</sub> − c<sub>(1)</sub></em>).</p>
+
+<p>As <em>n</em> grows, <em>c<sub>(2)</sub> → c<sub>(1)</sub></em> — competition drives the price toward marginal cost, and the buyer captures nearly all the surplus. This is the classical result from auction theory, but in the agent economy it acquires new force: <strong>the cost of adding another seller to the auction is near zero</strong>. There is no human overhead in evaluating proposals, no procurement cycle, no RFP process. The market can be made arbitrarily thick at negligible transaction cost.</p>
+
+<p>The welfare improvement ΔW = W<sub>auction</sub> − W<sub>static</sub> is strictly positive whenever (a) there exists cost heterogeneity among sellers, or (b) the static posted price exceeds the competitive equilibrium price. Both conditions hold in virtually every real API market today.</p>
+
+<p>Put differently: the welfare gains are not contingent on exotic market conditions. They are the <em>default case</em>. The only scenario in which static pricing matches auction outcomes is a market with a single seller operating at constant marginal cost — a market that does not exist.</p>
+
+</div>
+</details>
+
+<details class="economist-toggle">
+<summary>Appendix B: Computational Complexity, Equilibrium Learning &amp; Distributed Auction Design</summary>
+<div class="toggle-content">
+
+<h3>Computational Complexity of Auction Mechanisms</h3>
+
+<p>From a CS perspective, the mechanism choice above is also a <em>computational</em> choice. The Vickrey auction is attractive not just for its economic properties but because it eliminates the need for agents to solve a Bayesian Nash Equilibrium (BNE) computation — a problem that is PPAD-complete in general games and therefore unlikely to admit polynomial-time algorithms.</p>
+
+<p>In a first-price sealed-bid auction, each seller agent must compute its optimal bid shading as a function of the prior distribution over competitors' costs. For <em>n</em> sellers with independently drawn costs from a common distribution <em>F</em>, the symmetric BNE bid function is:</p>
+
+<div class="math-block">
+  b(c) = c + ∫<sub>c</sub><sup>c̄</sup> [(1 − F(t)) / (1 − F(c))]<sup>n−1</sup> dt
+</div>
+
+<p>Computing this integral requires knowledge of <em>F</em>. In practice, agents don't know <em>F</em> — they must <em>learn</em> it from repeated interaction, which introduces a regret-minimization problem. Using multiplicative weights or EXP3-style bandit algorithms, an agent can achieve <em>O(√T)</em> regret over <em>T</em> rounds, converging to approximate equilibrium. But convergence speed depends on the action-space granularity and the number of bidders — at machine speed with thousands of auctions per hour, convergence is fast, but the strategy space is high-dimensional when policy constraints 𝒫<sub>i</sub> are rich.</p>
+
+<p>In contrast, the Vickrey mechanism makes truthful bidding a <em>dominant strategy</em> — the agent's optimal action is independent of beliefs about competitors. The computational cost of participating in a Vickrey auction is <em>O(1)</em>: bid your (policy-adjusted) cost. This is a powerful property for system design: it means the agent runtime does not need to include a learning module for bid optimization, dramatically simplifying the agent architecture.</p>
+
+<h3>Multi-Attribute Scoring as a Combinatorial Problem</h3>
+
+<p>When the buyer evaluates bids on multiple dimensions (price, latency, accuracy, reliability), the mechanism becomes a <em>multi-dimensional auction</em>. The scoring rule σ(<em>p, q, l, …</em>) defines a total order over bid vectors, but the seller's optimization problem — maximizing surplus subject to the scoring rule and policy constraints — becomes a constrained optimization over a multi-dimensional bid space.</p>
+
+<p>If the scoring rule is linear (σ = <em>w₁p + w₂q + w₃l + …</em>), the seller's problem is a linear program and tractable. If the scoring rule involves non-linear interactions (e.g., price-quality tradeoffs with diminishing returns), the problem may require convex or even non-convex optimization. For agents that must respond within a millisecond-scale timeout window, the optimization must be pre-computed or approximated — suggesting that mechanism designers should prefer scoring rules that admit efficient best-response computation.</p>
+
+<h3>Collusion Detection as an Algorithmic Problem</h3>
+
+<p>In repeated auctions, tacit collusion among seller agents is sustainable by folk theorem results whenever the discount factor δ is sufficiently close to 1. At machine speed, the effective discount factor between rounds approaches 1 (the next auction is milliseconds away), which makes collusion equilibria easier to sustain.</p>
+
+<p>Detection is a statistical inference problem. The auctioneer (buyer agent) observes a sequence of bid vectors and must distinguish between competitive and collusive bidding patterns. Approaches include monitoring bid variance (collusive markets exhibit suspiciously low variance), testing for bid rotation patterns via permutation tests, and using change-point detection algorithms to identify regime shifts from competitive to collusive behavior. These are well-studied problems in the algorithmic game theory and econometrics literature, and they are computationally cheap relative to the auction itself.</p>
+
+<h3>Distributed Systems Considerations</h3>
+
+<p>An auction mechanism is a distributed consensus problem in miniature: <em>n</em> agents must agree on a winner and a price given private inputs, within a bounded time window, with no trusted third party (or with the buyer as a semi-trusted auctioneer). This maps directly onto classical distributed systems concerns — clock synchronization for bid deadlines, atomic commitment for settlement, and Byzantine fault tolerance if seller agents may behave adversarially (submitting bids they cannot fulfill).</p>
+
+<p>The simplest implementation treats the buyer agent as the auctioneer (a centralized coordinator). A more robust design uses a commit-reveal scheme: sellers submit cryptographic commitments to their bids in round one, then reveal in round two, preventing the auctioneer from selectively excluding bids. This adds one round-trip of latency but provides stronger fairness guarantees — a tradeoff worth evaluating against the specific trust model of the deployment.</p>
+
+</div>
+</details>
+
+<details class="economist-toggle">
+<summary>Appendix C: Technical Specification — Auction Layer Architecture &amp; Protocol Design</summary>
+<div class="toggle-content">
+
+<h3>Architecture Overview</h3>
+
+<p>The auction layer sits between MPP's quote phase and its settlement phase. When a buyer agent needs a service, instead of sending a single request to a single seller, it instantiates an <strong>Auction Session</strong> — a short-lived, stateful coordination process that broadcasts a request-for-quote, collects bids, selects a winner, and hands off to MPP settlement. The entire session lifecycle — from RFQ broadcast to winner selection — targets a latency budget of 50–200ms, comparable to a typical API round-trip.</p>
+
+<p>The high-level flow is:</p>
+
+<div class="math-block">
+Buyer Agent → [1. Create Auction Session] → Auction Coordinator
+Auction Coordinator → [2. Broadcast RFQ] → Seller Agents (n)
+Seller Agents → [3. Submit Sealed Bids] → Auction Coordinator
+Auction Coordinator → [4. Evaluate &amp; Select Winner] → Buyer Agent
+Buyer Agent → [5. MPP Settlement] → Winning Seller
+Winning Seller → [6. MPP Delivery] → Buyer Agent
+</div>
+
+<p>Steps 1–4 are the new auction layer. Steps 5–6 are the existing MPP settlement and delivery phases, unchanged.</p>
+
+<h3>Communication Protocol</h3>
+
+<p>The choice of transport protocol matters for latency and concurrency. Three viable options, in order of recommendation:</p>
+
+<p><strong>gRPC with Protocol Buffers.</strong> The strongest fit for agent-to-agent auction communication. gRPC runs over HTTP/2, which provides multiplexing (multiple concurrent bid streams over a single TCP connection), binary serialization via Protobuf (compact payloads, fast parsing), and strict API contracts defined in <code>.proto</code> files. The auction service can be defined as a gRPC service with methods like <code>SubmitBid</code>, <code>GetAuctionResult</code>, and <code>StreamAuctionEvents</code>. Bidirectional streaming supports multi-round auctions (e.g., descending clock) where the coordinator pushes price updates and sellers respond in real time. Latency per bid submission: sub-millisecond on a local network, low single-digit milliseconds cross-region.</p>
+
+<p><strong>WebSocket.</strong> A good fallback when gRPC is unavailable (e.g., browser-based agents or environments behind HTTP/1.1-only proxies). WebSocket provides full-duplex communication over a single TCP connection with minimal framing overhead. Messages are typically JSON-encoded, which is more verbose than Protobuf but human-readable and easier to debug. The tradeoff: no built-in service contracts (you define your own message schema), no multiplexing (one connection per auction session), and no native code generation. Acceptable for low-bidder-count auctions (n &lt; 20) where the latency difference is negligible.</p>
+
+<p><strong>HTTP/2 with Server-Sent Events (SSE).</strong> Suitable for unidirectional auction designs (sealed-bid only, no multi-round) where the coordinator needs to push results to sellers but sellers only need to submit a single bid via a standard HTTP POST. Lower implementation complexity than gRPC or WebSocket, at the cost of reduced flexibility for richer auction formats.</p>
+
+<h3>RFQ Message Schema</h3>
+
+<p>The Request-for-Quote message broadcast by the auction coordinator to all registered seller agents should encode:</p>
+
+<div class="math-block">
+{
+  "auction_id": "uuid-v4",
+  "auction_type": "vickrey | first_price | dutch_clock | scoring",
+  "service_descriptor": {
+    "service_type": "image_generation | geocoding | llm_completion | ...",
+    "parameters": { ... },          // service-specific request params
+    "quality_threshold": {
+      "max_latency_ms": 500,
+      "min_accuracy": 0.95,
+      "min_uptime_30d": 0.999
+    }
+  },
+  "bid_deadline_ms": 100,           // ms from RFQ receipt
+  "scoring_weights": {              // only for scoring auctions
+    "price": 0.6,
+    "latency": 0.2,
+    "accuracy": 0.2
+  },
+  "buyer_identity": {               // optional, for CLV-aware bidding
+    "agent_id": "did:key:...",
+    "reputation_score": 4.8,
+    "historical_volume": 12400
+  },
+  "settlement_method": "mpp_v1",
+  "payment_rails": ["tempo", "x402", "visa_card_mpp"]
+}
+</div>
+
+<h3>Bid Message Schema</h3>
+
+<div class="math-block">
+{
+  "auction_id": "uuid-v4",
+  "seller_id": "did:key:...",
+  "bid": {
+    "price_microcents": 4200,       // price in microcents for precision
+    "currency": "USD",
+    "offered_latency_ms": 120,
+    "offered_accuracy": 0.97,
+    "capacity_remaining_pct": 0.65
+  },
+  "commitment_hash": "sha256:...",  // for commit-reveal schemes
+  "signature": "ed25519:...",       // seller's cryptographic signature
+  "timestamp_iso": "2026-04-04T14:23:01.442Z"
+}
+</div>
+
+<h3>Sandboxed Auction Environment</h3>
+
+<p>The term "sandboxed" refers to three isolation properties the auction session must enforce:</p>
+
+<p><strong>Bid confidentiality.</strong> In a sealed-bid auction, no seller should observe another seller's bid before the deadline. The coordinator must buffer incoming bids and not leak information — either through timing side-channels (acknowledging bids at different speeds) or through the response payload. A commit-reveal protocol strengthens this: sellers first submit <code>H(bid ∥ nonce)</code>, then reveal <code>(bid, nonce)</code> after the deadline. The coordinator verifies <code>H(bid ∥ nonce)</code> matches before accepting the revealed bid.</p>
+
+<p><strong>Temporal isolation.</strong> The auction has a hard deadline. Bids arriving after the deadline are rejected. The coordinator's clock is the reference (or, in a decentralized variant, a consensus timestamp). Late bids are not held for future auctions — each session is stateless and independent.</p>
+
+<p><strong>Execution isolation.</strong> The auction evaluation logic (winner selection, price computation) runs in a deterministic, auditable context. For a Vickrey auction: sort bids ascending, select lowest as winner, set payment at second-lowest bid. The computation is trivially verifiable. For scoring auctions, the scoring function σ and its weights are published in the RFQ, so any party can independently verify the outcome.</p>
+
+<h3>Seller Agent Discovery &amp; Registration</h3>
+
+<p>Before an auction can run, the buyer agent needs a registry of seller agents capable of providing the requested service. Three approaches, which can coexist:</p>
+
+<p><strong>Static registry.</strong> A curated list of seller endpoints per service type, maintained by the buyer's organization. Simple, low-latency (no discovery overhead), but requires manual curation and doesn't scale to open markets.</p>
+
+<p><strong>DNS-SD / mDNS.</strong> Service discovery via DNS, where seller agents register TXT records advertising their service types, quality signals, and gRPC endpoints. Works well on local networks and can be extended to wide-area via standard DNS infrastructure. Lookup latency: ~1–10ms.</p>
+
+<p><strong>Decentralized registry (DID-based).</strong> Seller agents publish Decentralized Identifiers (DIDs) with service endpoints in a distributed registry (e.g., a DHT or an on-chain registry). The buyer resolves the DID to a DID Document containing the seller's gRPC endpoint, public key (for bid signature verification), and service capabilities. This approach is maximally open and censorship-resistant, but adds resolution latency (50–200ms for on-chain lookups, reducible with caching).</p>
+
+<h3>Settlement Handoff to MPP</h3>
+
+<p>Once the auction coordinator selects a winner, it constructs an <strong>Auction Receipt</strong> — a signed attestation containing the auction ID, winning seller ID, winning bid, payment amount (which may differ from the bid in a Vickrey auction), and the scoring breakdown. This receipt is passed to the buyer agent, which then initiates standard MPP settlement with the winning seller.</p>
+
+<p>The key integration point: MPP's existing <code>402 Payment Required</code> response flow is triggered by the buyer agent toward the winning seller only. The payment credential (Tempo session token, x402 proof, or Visa card token) is constructed for the auction-determined price, not the seller's list price. The seller agent must be configured to accept auction-determined pricing — which means the seller's MPP server must support a mode where the price is set externally (by the auction result) rather than internally (by the seller's own price list). This is a small but critical extension to the seller-side MPP integration.</p>
+
+<h3>Fault Tolerance &amp; Edge Cases</h3>
+
+<p><strong>No bids received.</strong> If no seller responds before the deadline, the buyer agent falls back to direct MPP (single-seller, posted-price) or retries with a relaxed quality threshold or extended deadline.</p>
+
+<p><strong>Single bid received.</strong> A Vickrey auction with one bidder degenerates: the winner pays… what? The second-lowest bid doesn't exist. Options include setting a reserve price (published in the RFQ) as the payment floor, or falling back to first-price semantics. The reserve price approach is cleaner and should be the default.</p>
+
+<p><strong>Seller non-delivery after winning.</strong> The auction receipt does not guarantee delivery — MPP settlement does. If the winning seller fails to deliver after payment, standard MPP dispute/refund mechanisms apply. The auction layer is pre-settlement; it doesn't change the trust model of delivery.</p>
+
+<p><strong>Coordinator failure.</strong> If the auction coordinator crashes mid-auction, all bids are lost. Since auction sessions are short-lived (~100ms), the blast radius is small: the buyer agent simply retries. For higher reliability, bid commitments can be logged to a write-ahead log, but this is likely over-engineering for the typical latency budget.</p>
+
+<h3>Reference Stack</h3>
+
+<p>A minimal implementation of the auction layer could be built on:</p>
+
+<div class="math-block">
+Transport:        gRPC over HTTP/2 (with TLS 1.3)
+Serialization:    Protocol Buffers v3
+Identity:         DID:key (Ed25519 keypairs)
+Bid commitment:   SHA-256 hash with 128-bit nonce
+Signature:        Ed25519 (fast, deterministic, 64-byte sigs)
+Service discovery: Static registry (v1), DNS-SD (v2)
+Settlement:       MPP v1 (Tempo / x402 / Visa card spec)
+Coordinator:      Stateless process, one per auction session
+Logging:          Structured JSON logs for bid audit trail
+</div>
+
+<p>This stack is intentionally boring. Every component is battle-tested, well-documented, and available as a library in every major language. The novelty is in the <em>composition</em> — gluing these pieces into a coherent auction session that runs in under 200ms — not in any individual component.</p>
+
+</div>
+</details>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>Dynamic Pricing as Emergent Behavior</h2>
+
+<p>One of the most compelling implications of auction-mediated MPP is the emergence of <em>dynamic, context-sensitive pricing</em> without any centralized price-setting authority.</p>
+
+<p>Consider the current state: a maps API charges $5 per 1,000 requests regardless of who is asking, when, or why. Under an auction regime:</p>
+
+<ul>
+  <li>A seller agent with excess GPU capacity at 3 AM bids aggressively, clearing the market at a price approaching marginal electricity cost.</li>
+  <li>The same seller, at peak load, bids conservatively — its opportunity cost of serving one more request is high.</li>
+  <li>A seller that recognizes a high-CLV buyer (a well-funded agent representing an enterprise client with recurring needs) might bid below cost on the first interaction, treating it as a customer acquisition cost amortized over the expected relationship duration.</li>
+  <li>A premium seller with demonstrably lower latency and higher accuracy commands a price premium in multi-attribute auctions, segmenting the market on quality rather than racing to the bottom on price alone.</li>
+</ul>
+
+<p>This is first-degree price discrimination achieved not through surveillance or dark patterns, but through <em>voluntary, incentive-compatible revelation</em> within a well-designed mechanism. Each agent reveals exactly as much as the mechanism requires, and no more. The resulting price surface is a <em>function</em> of context — buyer type, seller capacity, time of day, service quality — rather than a <em>constant</em>. This is allocatively efficient and, under appropriate mechanism design, individually rational for all participants.</p>
+
+<p>For sellers, this is worth emphasizing: auction-mediated pricing does not mean a race to the bottom. It means that the market finally has a channel through which quality differentiation, reliability, and capacity investment are <em>priced in</em> — rewarded directly in the clearing price rather than indirectly through brand reputation that takes years to build and is invisible to an autonomous agent.</p>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>Orchestration Constraints and Agent Autonomy</h2>
+
+<p>A critical design consideration is the <em>principal-agent relationship</em> between the deploying organization and its autonomous agent. The agent acts as a delegate with bounded authority. Its strategy space is not the full action space of the mechanism; it is the intersection of the mechanism's action space with the policy constraint set 𝒫 imposed by its principal.</p>
+
+<p>This introduces a layered optimization problem:</p>
+
+<ol>
+  <li><strong>Mechanism layer.</strong> The buyer designs (or selects) an auction mechanism with desirable properties (incentive compatibility, individual rationality, budget balance).</li>
+  <li><strong>Policy layer.</strong> Each seller's principal defines 𝒫<sub>i</sub> — reservation prices, CLV models, capacity targets, authorized concession ranges.</li>
+  <li><strong>Strategy layer.</strong> The agent computes its optimal action <em>within</em> 𝒫<sub>i</sub> <em>given</em> the mechanism rules and its beliefs about competitor behavior.</li>
+</ol>
+
+<p>This three-layer architecture ensures that autonomous agents operate within organizationally sanctioned boundaries while still exploiting the full strategic richness of the market mechanism. The agent is <em>boundedly autonomous</em> — free to optimize within its constraint set, but unable to make commitments that violate its principal's policy.</p>
+
+<p>From an implementation standpoint, this layering is also a clean separation of concerns. The mechanism layer can be built once as a protocol extension. The policy layer is organizational configuration — a JSON schema, not a code change. The strategy layer is where agent intelligence lives. Each layer can evolve independently, which matters for adoption: teams can start with simple policies (a floor price and a quality threshold) and add sophistication as they observe market behavior.</p>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>Open Questions and Future Directions</h2>
+
+<p>This framework opens several lines of inquiry — some theoretical, some immediately practical for anyone extending MPP:</p>
+
+<ul>
+  <li><strong>Collusion detection in repeated agent auctions.</strong> In infinitely repeated games, folk theorem results suggest that tacit collusion is sustainable among patient agents. What mechanism design interventions (randomized reserve prices, bid rotation detection, mechanism switching) can maintain competitive outcomes?</li>
+  <li><strong>Interoperability and standardization.</strong> For multi-agent auctions to scale, there must be a common protocol for request-for-quote broadcasting, bid submission, and settlement. MPP provides the settlement layer; what sits above it? The first credible specification here will likely define the default — a strong reason to move early.</li>
+  <li><strong>Information asymmetry and adverse selection.</strong> When service quality is private information, low-quality sellers may undercut on price. Reputation systems, escrow mechanisms, and quality verification oracles become essential complementary infrastructure.</li>
+  <li><strong>Computational complexity of equilibrium strategies.</strong> In multi-attribute auctions with rich policy constraint sets, computing optimal bids may be computationally expensive. Can agents approximate equilibrium strategies efficiently, or does the curse of dimensionality limit the practical richness of the mechanism?</li>
+  <li><strong>Regulatory and antitrust implications.</strong> When autonomous agents engage in real-time price coordination, does this constitute algorithmic collusion under existing competition law? The legal framework has not yet caught up with the speed of machine-mediated markets.</li>
+</ul>
+
+<hr class="section-rule">
+
+<!-- ============================== -->
+
+<h2>Conclusion</h2>
+
+<p>The Machine Payment Protocol, in its current form, solves the settlement problem for autonomous agent commerce. But settlement is only the foundation. The real value unlock lies in the <em>market design layer</em> — in the mechanisms that govern price discovery, surplus allocation, and competitive dynamics among agents.</p>
+
+<p>By embedding auction mechanisms into the MPP transaction flow, we can move from a world of static, uniform API pricing to one of dynamic, context-sensitive, welfare-maximizing exchange. The tools are well-understood — Vickrey auctions, scoring rules, mechanism design theory — but their application to machine-speed, agent-mediated commerce is largely unexplored territory.</p>
+
+<p>The agents are already transacting. The protocol already settles. The question is no longer whether autonomous agents <em>can</em> negotiate prices in real time — it is who builds the mechanism layer that lets them do it well. That layer will sit at the seam between MPP's quote phase and its settlement phase, and it will determine whether agent commerce converges to efficient markets or remains stuck in the flat-rate equilibrium we inherited from an era of human-read pricing pages.</p>
+
+<p>The economics say this is worth building. The protocol says it's feasible today.</p>
+
+<p class="footer-note">This is a working draft. Feedback, counterarguments, and extensions are welcome.</p>
+
+</article>
+</body>
+</html>
