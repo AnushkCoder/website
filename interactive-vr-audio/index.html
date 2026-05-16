@@ -182,6 +182,37 @@ a:hover { color: #fff; border-bottom-color: #fff; }
 .hero-meta dd { margin: 0; color: #fff; font-size: 14px; }
 .hero-meta dd b { font-weight: 600; }
 
+/* Open-source CTA row in hero */
+.hero-cta {
+  margin-top: clamp(22px, 2.4vw, 30px);
+  display: flex; flex-wrap: wrap; gap: 10px 12px;
+  align-items: center;
+}
+.hero-cta .os-badge {
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink);
+  background: var(--cyan);
+  padding: 6px 10px;
+  border-radius: 2px;
+  box-shadow: 0 0 32px rgba(125,249,255,.35);
+}
+.cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  color: #fff;
+  background: var(--ink-2);
+  transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease);
+}
+.cta:hover { border-color: var(--cyan); background: var(--ink-3); transform: translateY(-1px); }
+.cta--primary { border-color: var(--cyan); background: transparent; color: var(--cyan); }
+.cta--primary:hover { background: rgba(125,249,255,.08); color: #fff; }
+.cta svg { width: 14px; height: 14px; fill: currentColor; }
+
 /* Oscilloscope card on the right */
 .scope {
   border: 1px solid var(--line);
@@ -544,6 +575,12 @@ section.block { padding: clamp(56px, 9vw, 120px) 0; border-top: 1px solid var(--
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
+.video-slot iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+  z-index: 3;
+}
 .video-slot::before, .video-slot::after {
   content: ""; position: absolute; pointer-events: none;
 }
@@ -745,6 +782,26 @@ footer {
         from a single in-game screenshot. We pair a generative model with a real-time
         Unity audio plugin so the world sounds like the space the player is standing in.
       </p>
+
+      <div class="hero-cta">
+        <span class="os-badge">Open source</span>
+        <a class="cta cta--primary" href="https://youtu.be/O3bOyJxSHjY" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M5 3v18l14-9Z"/></svg>
+          Watch demo
+        </a>
+        <a class="cta" href="https://github.com/dappon4/CMSC731-Final-Project" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+          Unity project
+        </a>
+        <a class="cta" href="https://github.com/dappon4/unity-dynamic-convolution-audio-plugin" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+          Audio plugin
+        </a>
+        <a class="cta" href="https://docs.google.com/presentation/d/1OaKeDrkPlhGakyvc-1oO6DZxWfcqRtSzDt_MIZo3UUA/edit" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M4 4h12l4 4v12H4V4zm10 0v6h6"/></svg>
+          Slides
+        </a>
+      </div>
 
       <dl class="hero-meta">
         <div>
@@ -1149,11 +1206,16 @@ footer {
 
     <div class="demo-grid">
       <div class="reveal">
-        <div class="video-slot" role="button" aria-label="Demo video placeholder">
-          <div class="play-btn">
-            <svg viewBox="0 0 24 24"><path d="M5 3v18l14-9Z"/></svg>
-          </div>
-          <div class="video-caption">// Demo video · drop a video element here</div>
+        <div class="video-slot">
+          <iframe
+            src="https://www.youtube.com/embed/O3bOyJxSHjY"
+            title="Interactive Image-Guided Acoustic Authoring in VR — Demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+        <div class="video-caption" style="position: static; margin-top: 10px; padding: 0;">
+          // Walkthrough · YouTube · 3 scenes, one model
         </div>
       </div>
 
@@ -1272,6 +1334,15 @@ footer {
           screenshots and applies them in real time through a custom Unity
           audio plugin.
         </p>
+      </div>
+      <div>
+        <h5>Open source</h5>
+        <ul>
+          <li><a href="https://github.com/dappon4/CMSC731-Final-Project" target="_blank" rel="noopener">Unity project · GitHub</a></li>
+          <li><a href="https://github.com/dappon4/unity-dynamic-convolution-audio-plugin" target="_blank" rel="noopener">Audio plugin · GitHub</a></li>
+          <li><a href="https://youtu.be/O3bOyJxSHjY" target="_blank" rel="noopener">Demo · YouTube</a></li>
+          <li><a href="https://docs.google.com/presentation/d/1OaKeDrkPlhGakyvc-1oO6DZxWfcqRtSzDt_MIZo3UUA/edit" target="_blank" rel="noopener">Slides · Google Docs</a></li>
+        </ul>
       </div>
       <div>
         <h5>Reference</h5>
