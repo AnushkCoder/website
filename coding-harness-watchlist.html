@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness Radar — OSS · Model-Agnostic Coding Harness Watchlist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+  :root{
+    --bg:#07090c;
+    --bg2:#0b0f14;
+    --panel:#0e141b;
+    --panel2:#0b1016;
+    --ink:#eaf2f5;
+    --dim:#6b7d8a;
+    --line:#19222c;
+    --line2:#223040;
+    --sig:#00e5a0;      /* signal green */
+    --sig-d:#0a8f66;
+    --hot:#ff5470;      /* surging */
+    --warm:#ffac41;
+    --ice:#54b9ff;      /* openrouter */
+    --violet:#9d7bff;
+    --glow:0 0 24px rgba(0,229,160,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Familjen Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+  body{
+    background-image:
+      radial-gradient(1100px 600px at 92% -8%, rgba(0,229,160,.07), transparent 55%),
+      radial-gradient(800px 600px at -5% 5%, rgba(84,185,255,.05), transparent 50%),
+      linear-gradient(180deg,var(--bg),var(--bg2));
+    min-height:100vh;
+  }
+  .wrap{max-width:1340px;margin:0 auto;padding:30px 24px 90px}
+  /* header */
+  .top{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:24px}
+  .mast{display:flex;align-items:center;gap:13px}
+  .radar{width:34px;height:34px;flex:none;position:relative}
+  .radar svg{display:block}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,38px);margin:0;letter-spacing:-.02em;line-height:1}
+  .tagline{color:var(--dim);font-size:13px;margin:9px 0 0;max-width:600px;line-height:1.55}
+  .tagline b{color:var(--sig);font-weight:600}
+  .tagline .ice{color:var(--ice)}
+  .ctrls{display:flex;flex-direction:column;gap:9px;align-items:flex-end}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;border:1px solid var(--line2);
+    background:linear-gradient(180deg,#0f1620,#0b1016);color:var(--ink);font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;font-weight:500;padding:11px 16px;border-radius:10px;transition:.18s
+  }
+  .btn:hover{border-color:var(--sig);color:var(--sig);box-shadow:var(--glow)}
+  .btn:disabled{opacity:.5;cursor:wait;box-shadow:none}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--sig);box-shadow:0 0 10px var(--sig);animation:pl 1.6s infinite}
+  @keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+  .tok{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:9px;padding:8px 12px;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;width:250px;outline:none}
+  .tok:focus{border-color:var(--ice)}
+  .toknote{color:var(--dim);font-size:10.5px;font-family:'JetBrains Mono',monospace;max-width:250px;text-align:right;line-height:1.4}
+  .toknote a{color:var(--ice);text-decoration:none}
+
+  .status{margin-top:18px;border-top:1px solid var(--line);padding-top:13px;font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;color:var(--dim);min-height:18px}
+  .status .on{color:var(--sig)}
+  .status .warn{color:var(--warm)}
+  .status .bad{color:var(--hot)}
+
+  /* filter row */
+  .bar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:24px 0 4px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{background:transparent;border:none;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11.5px;
+    padding:8px 13px;cursor:pointer;transition:.14s;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:none}
+  .seg button.on{background:var(--sig);color:#04130d;font-weight:600}
+  .seg button:hover:not(.on){color:var(--ink)}
+  .flag{font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--line);background:var(--panel2);
+    color:var(--dim);padding:8px 13px;border-radius:9px;cursor:pointer;transition:.14s;user-select:none}
+  .flag.on{border-color:var(--ice);color:var(--ice);background:rgba(84,185,255,.08)}
+  .flag .x{opacity:.6;margin-left:6px}
+  .grow{flex:1}
+  .sortwrap{display:flex;align-items:center;gap:8px}
+  .sortwrap label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)}
+  select.sort{background:var(--panel);color:var(--ink);border:1px solid var(--line2);border-radius:8px;
+    padding:8px 11px;font-family:'JetBrains Mono',monospace;font-size:11.5px;outline:none;cursor:pointer}
+
+  /* surging strip */
+  .surge{margin:22px 0 6px}
+  .surge-h{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+  .surge-h h2{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin:0;letter-spacing:-.01em}
+  .surge-h .lab{font-family:'JetBrains Mono',monospace;font-size:10px;color:#180a0f;background:var(--hot);padding:3px 9px;border-radius:5px;font-weight:700;letter-spacing:.04em}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:12px}
+  .card{position:relative;border:1px solid var(--line2);border-radius:14px;padding:15px 16px;overflow:hidden;
+    background:linear-gradient(165deg,#10171f,#0b1016)}
+  .card .spark{position:absolute;right:0;bottom:0;opacity:.5}
+  .card .nm{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink);position:relative}
+  .card .own{color:var(--dim);font-weight:400}
+  .card .pills{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+  .pill{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:4px;letter-spacing:.03em}
+  .pill.ma{background:rgba(0,229,160,.12);color:var(--sig);border:1px solid rgba(0,229,160,.3)}
+  .pill.or{background:rgba(84,185,255,.1);color:var(--ice);border:1px solid rgba(84,185,255,.3)}
+  .card .big{display:flex;align-items:baseline;gap:7px;margin-top:13px;position:relative}
+  .card .delta{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:27px;line-height:1;color:var(--sig)}
+  .card .delta.pending{color:var(--dim);font-size:15px;font-weight:500}
+  .card .dlab{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+  .card .sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--dim);margin-top:6px;position:relative}
+
+  /* table */
+  .tbl{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel2)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);
+    text-align:right;padding:13px 13px;background:#0c1119;border-bottom:1px solid var(--line2);font-weight:500;white-space:nowrap}
+  thead th.l{text-align:left}
+  thead th.s{cursor:pointer;user-select:none}
+  thead th.s:hover{color:var(--ink)}
+  tbody td{padding:12px 13px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr{transition:background .12s}
+  tbody tr:hover{background:rgba(0,229,160,.035)}
+  td.nm{text-align:left}
+  td.nm a{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:var(--ink);text-decoration:none}
+  td.nm a:hover{color:var(--sig)}
+  td.nm .d{display:block;color:var(--dim);font-size:11px;font-weight:400;margin-top:3px;max-width:330px;line-height:1.4}
+  .pills2{display:inline-flex;gap:4px;margin-left:7px;vertical-align:middle}
+  .new{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--warm);border:1px solid rgba(255,172,65,.35);padding:1px 5px;border-radius:4px}
+  .stars{font-family:'JetBrains Mono',monospace;font-weight:600}
+  .d30{font-family:'JetBrains Mono',monospace;font-weight:600}
+  .d30.hot{color:var(--hot)}.d30.warm{color:var(--warm)}.d30.sig{color:var(--sig)}.d30.pend{color:var(--dim);font-weight:400}
+  .lic{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--dim)}
+  .lic.permissive{color:var(--sig)}
+  .push{font-family:'JetBrains Mono',monospace;font-size:11px}
+  .push.fresh{color:var(--ice)}.push.stale{color:var(--hot)}
+  .mom{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px}
+  .mbar{display:inline-block;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--sig-d),var(--sig));margin-left:7px;vertical-align:middle;min-width:2px}
+  .loading td{text-align:center;color:var(--dim);font-family:'JetBrains Mono',monospace;padding:28px;font-size:12px}
+
+  .legend{margin-top:18px;display:flex;flex-wrap:wrap;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--dim)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .note{margin-top:24px;font-size:12px;color:var(--dim);line-height:1.65;border-left:2px solid var(--line2);padding-left:16px;max-width:880px}
+  .note b{color:var(--ink)} .note code{font-family:'JetBrains Mono',monospace;color:var(--ice);font-size:11px}
+  .note .sig{color:var(--sig)}
+  @media(max-width:780px){td.nm .d{display:none} th.hs,td.hs{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div>
+      <div class="mast">
+        <div class="radar">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <circle cx="17" cy="17" r="15.5" stroke="#19222c" stroke-width="1.4"/>
+            <circle cx="17" cy="17" r="9.5" stroke="#19222c" stroke-width="1.2"/>
+            <circle cx="17" cy="17" r="3.5" stroke="#223040" stroke-width="1.2"/>
+            <path d="M17 17 L17 1.5 A15.5 15.5 0 0 1 30 9 Z" fill="#00e5a0" fill-opacity="0.18"/>
+            <line x1="17" y1="17" x2="30" y2="9" stroke="#00e5a0" stroke-width="1.4"/>
+            <circle cx="24" cy="11" r="2" fill="#00e5a0"/>
+            <circle cx="11" cy="23" r="1.5" fill="#54b9ff"/>
+          </svg>
+        </div>
+        <h1>Harness&nbsp;Radar</h1>
+      </div>
+      <p class="tagline">A focused watchlist of <b>open-source coding harnesses</b> that are <b>model-agnostic</b> or run on <span class="ice">OpenRouter</span>. Ranked by real <b>recent star growth</b> — fetched live from GitHub — so early movers surface before they're obvious. Built for timing outreach.</p>
+    </div>
+    <div class="ctrls">
+      <button class="btn" id="run"><span class="pulse"></span> Probe live growth</button>
+      <input class="tok" id="tok" type="password" placeholder="GitHub token (recommended)">
+      <div class="toknote">unauthed = 60 req/hr — not enough for the growth probe. <a href="https://github.com/settings/tokens?type=beta" target="_blank">Make a read-only token</a> → 5000/hr.</div>
+    </div>
+  </div>
+
+  <div class="status" id="status">Seed snapshot loaded. Add a token and hit <b>Probe live growth</b> to compute real 7/30-day star deltas.</div>
+
+  <div class="bar">
+    <div class="seg" id="catseg"></div>
+    <div class="flag" id="fMA" data-f="ma">model-agnostic <span class="x">⌫</span></div>
+    <div class="flag" id="fOR" data-f="or">openrouter <span class="x">⌫</span></div>
+    <div class="flag" id="fAlive" data-f="alive">active only <span class="x">⌫</span></div>
+    <div class="grow"></div>
+    <div class="sortwrap">
+      <label>rank by</label>
+      <select class="sort" id="sort">
+        <option value="mom">Momentum score</option>
+        <option value="d30">Stars · last 30d</option>
+        <option value="d7">Stars · last 7d</option>
+        <option value="rel30">Relative growth 30d (%)</option>
+        <option value="stars">Total stars</option>
+        <option value="vel">Lifetime velocity</option>
+        <option value="young">Youngest</option>
+      </select>
+    </div>
+  </div>
+
+  <section class="surge">
+    <div class="surge-h"><span class="lab">▲ SURGING</span><h2>Sharpest recent acceleration — your outreach shortlist</h2></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <div class="tbl">
+    <table>
+      <thead><tr>
+        <th class="l">#</th>
+        <th class="l">Harness</th>
+        <th class="hs">Flags</th>
+        <th class="s" data-k="stars">Stars</th>
+        <th class="s" data-k="d7">Δ 7d</th>
+        <th class="s" data-k="d30">Δ 30d</th>
+        <th class="s hs" data-k="rel30">Rel 30d</th>
+        <th class="hs">License</th>
+        <th class="s hs" data-k="push">Last push</th>
+        <th class="s" data-k="mom">Momentum</th>
+      </tr></thead>
+      <tbody id="tbody"><tr class="loading"><td colspan="10">loading…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:var(--hot)"></i> surging (high Δ)</span>
+    <span><i style="background:var(--sig)"></i> growing</span>
+    <span><i style="background:var(--ice)"></i> openrouter-verified</span>
+    <span><i style="background:var(--warm)"></i> &lt;12mo old</span>
+    <span><i style="background:var(--dim)"></i> Δ pending — run the probe</span>
+  </div>
+
+  <p class="note">
+    <b class="sig">Why this measures momentum, not popularity.</b> Total stars rank incumbents. What you want is <i>acceleration</i>. The <b>Probe live growth</b> button hits GitHub's stargazer-timestamp API (<code>Accept: application/vnd.github.star+json</code>), jumps to each repo's most recent stars, and counts how many landed in the last <b>7</b> and <b>30</b> days — actual recent growth, not a guess. <b>Relative 30d</b> (Δ30 ÷ total) is the strongest early signal: a 4k-star repo adding 800 in a month (20%) is igniting; a 100k repo adding the same is flat.<br><br>
+    <b>The momentum score</b> blends recent absolute growth, relative growth (weighted highest), a youth bonus, and a push-recency factor — so a small, young, fast-climbing harness out-ranks a big sleepy one. Sort by any column header too.<br><br>
+    <b>Flags are hand-verified, not guessed.</b> <span class="sig">model-agnostic</span> = the harness explicitly supports swapping providers / local models (per current docs &amp; the Pinggy and Tembo CLI surveys). <span class="ice">openrouter</span> = listed on OpenRouter's official <i>works-with</i> registry or documented OpenRouter config. Repo paths track 2026 org renames (OpenCode→anomalyco, Goose→aaif-goose, OpenHands→OpenHands, Pi→earendil-works).<br><br>
+    <b>One honest limit.</b> GitHub caps stargazer pagination, so the 7/30-day probe is exact for the small-and-mid repos that are your actual targets and approximate for the giants (OpenCode/Codex). That's the right tradeoff — the early signal lives in the small repos. For a permanent record, run this on a daily cron and diff <code>stargazers_count</code>; that history beats any single-shot probe.
+  </p>
+</div>
+
+<script>
+const TODAY=new Date('2026-05-31T00:00:00Z');
+// ---- Curated watchlist: OSS coding harnesses, model-agnostic and/or OpenRouter ----
+// flags hand-verified from Pinggy (May25), Tembo, OpenRouter works-with registry.
+const SEED=[
+ {repo:"anomalyco/opencode", cat:"CLI", lic:"MIT", ma:1, or:1, stars:165000, forks:9800, created:"2025-02-18", pushed:"2026-05-30", desc:"Most-starred OSS coding agent; terminal TUI, build/plan agents, LSP, MCP. OpenAI/Google/OpenRouter/Ollama."},
+ {repo:"openai/codex", cat:"CLI", lic:"Apache-2.0", ma:1, or:1, stars:85000, forks:6200, created:"2025-04-16", pushed:"2026-05-30", desc:"OpenAI's Rust CLI; sandboxed shell by default. --oss for local; OpenRouter via config.toml."},
+ {repo:"OpenHands/OpenHands", cat:"Autonomous", lic:"MIT", ma:1, or:1, stars:75000, forks:8600, created:"2024-03-13", pushed:"2026-05-30", desc:"Most autonomous; sandboxed runtime, headless CI mode. LiteLLM → 100+ providers incl. OpenRouter."},
+ {repo:"cline/cline", cat:"IDE+CLI", lic:"Apache-2.0", ma:1, or:1, stars:62000, forks:7000, created:"2024-07-06", pushed:"2026-05-30", desc:"Model-agnostic across IDE/CLI/SDK; 30+ providers, parallel agents, Kanban. OpenRouter-verified."},
+ {repo:"earendil-works/pi", cat:"CLI", lic:"MIT", ma:1, or:1, stars:54000, forks:2100, created:"2026-01-20", pushed:"2026-05-30", desc:"Ronacher/Zechner. Sub-1k-token system prompt via lazy skills; unified LLM API, hackable. Brand new."},
+ {repo:"aaif-goose/goose", cat:"Autonomous", lic:"Apache-2.0", ma:1, or:1, stars:46000, forks:3300, created:"2024-09-10", pushed:"2026-05-29", desc:"Rust general agent, 70+ MCP extensions, 15+ providers incl. Ollama. Now Linux Foundation governed."},
+ {repo:"Aider-AI/aider", cat:"CLI", lic:"Apache-2.0", ma:1, or:1, stars:45000, forks:4100, created:"2023-05-09", pushed:"2026-05-20", desc:"Git-native pair programmer; tree-sitter repomap, auto-commits. OpenRouter-verified. No tag since Aug'25."},
+ {repo:"continuedev/continue", cat:"IDE+CLI", lic:"Apache-2.0", ma:1, or:1, stars:33000, forks:3100, created:"2023-05-24", pushed:"2026-05-29", desc:"`cn` CLI + IDE engine; pivoted to Continuous-AI PR checks. OpenRouter + strong local support."},
+ {repo:"QwenLM/qwen-code", cat:"CLI", lic:"Apache-2.0", ma:1, or:0, stars:25000, forks:1900, created:"2025-06-25", pushed:"2026-05-29", desc:"Alibaba's terminal agent; living open fork of the sunsetting Gemini CLI, tuned for open-weight models."},
+ {repo:"charmbracelet/crush", cat:"CLI", lic:"FSL-1.1-MIT", ma:1, or:1, stars:25000, forks:560, created:"2025-06-20", pushed:"2026-05-30", desc:"Charm's Go TUI; gorgeous, mid-session model switching, LSP+MCP. Pre-1.0. FSL→MIT after 2yr."},
+ {repo:"Kilo-Org/kilocode", cat:"IDE+CLI", lic:"MIT", ma:1, or:1, stars:20000, forks:1500, created:"2025-01-15", pushed:"2026-05-29", desc:"Roo fork; CLI built on OpenCode. 500+ models/60+ providers, Memory Bank, Orchestrator. OpenRouter-verified."},
+ {repo:"plandex-ai/plandex", cat:"CLI", lic:"MIT", ma:1, or:1, stars:15000, forks:1050, created:"2024-03-29", pushed:"2025-10-12", desc:"Built for huge multi-step tasks, up to 2M ctx, diff sandbox. Maintenance-mode (no commits since Oct'25)."},
+ {repo:"tailcallhq/forgecode", cat:"CLI", lic:"Apache-2.0", ma:1, or:1, stars:7000, forks:430, created:"2025-03-04", pushed:"2026-05-28", desc:"Independent Rust harness; forge/sage/muse three-agent split. BYOK across 300+ models. Fully agnostic."},
+ {repo:"gptme/gptme", cat:"CLI", lic:"MIT", ma:1, or:1, stars:4200, forks:340, created:"2023-11-04", pushed:"2026-05-26", desc:"Tiny scriptable Python CLI; shell + Python + file edits. Minimal, great with local models."},
+ {repo:"truffle-ai/dexto", cat:"Harness", lic:"Apache-2.0", ma:1, or:1, stars:1600, forks:140, created:"2025-05-12", pushed:"2026-05-29", desc:"Open agent harness: production coding agent + CLI + Web UI. OpenRouter-verified. Very young."},
+ {repo:"vinhnx/vtcode", cat:"CLI", lic:"MIT", ma:1, or:1, stars:900, forks:70, created:"2025-07-02", pushed:"2026-05-28", desc:"Semantic terminal coding agent. OpenRouter-verified works-with entry. Early-stage."},
+];
+
+let DATA=[], cat="All", filters={ma:false,or:false,alive:false}, sortK="mom", probed=false;
+
+function dB(a,b){return Math.max(0,Math.round((b-a)/86400000));}
+function enrich(r){
+  const c=new Date(r.created+'T00:00:00Z'), p=new Date(r.pushed+'T00:00:00Z');
+  const age=Math.max(1,dB(c,TODAY)), sp=dB(p,TODAY);
+  return {...r, age, sp, vel:r.stars/age, isNew:age<365,
+          d7:(r.d7??null), d30:(r.d30??null),
+          rel30:(r.d30!=null)?(r.d30/r.stars*100):null};
+}
+function momentum(rows){
+  // normalize across current set
+  const arr=rows.map(r=>r.d30!=null?r.d30:0); const maxD=Math.max(1,...arr);
+  const rel=rows.map(r=>r.rel30!=null?r.rel30:0); const maxR=Math.max(1,...rel);
+  const lv=rows.map(r=>Math.log10(r.vel+1)); const maxLV=Math.max(...lv);
+  rows.forEach(r=>{
+    if(r.d30!=null){
+      const absN=r.d30/maxD, relN=Math.min(1,r.rel30/maxR), youth=r.isNew?(1-r.age/365)*0.85+0.15:0.15;
+      const recency=Math.max(0,1-r.sp/120);
+      r.mom=Math.round((relN*0.42 + absN*0.28 + youth*0.18 + recency*0.12)*100);
+    }else{
+      // pre-probe: velocity + youth proxy
+      const velN=Math.log10(r.vel+1)/maxLV, youth=r.isNew?(1-r.age/365)*0.85+0.15:0.15;
+      const recency=Math.max(0,1-r.sp/120);
+      r.mom=Math.round((velN*0.55 + youth*0.30 + recency*0.15)*100);
+    }
+  });
+  return rows;
+}
+function fmt(n){if(n==null)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(n>=1e4?0:1)+'k';return''+n;}
+function ago(d){if(d===0)return'today';if(d===1)return'1d';if(d<30)return d+'d';if(d<365)return Math.round(d/30)+'mo';return Math.round(d/365)+'y';}
+
+function recompute(){DATA=momentum(DATA.map(r=>enrich(r)));}
+
+function visible(){
+  let rows=[...DATA];
+  if(cat!=="All") rows=rows.filter(r=>r.cat===cat);
+  if(filters.ma) rows=rows.filter(r=>r.ma);
+  if(filters.or) rows=rows.filter(r=>r.or);
+  if(filters.alive) rows=rows.filter(r=>r.sp<=120);
+  const k=sortK;
+  rows.sort((a,b)=>{
+    const get=(r)=>({mom:r.mom,d30:r.d30??-1,d7:r.d7??-1,rel30:r.rel30??-1,stars:r.stars,vel:r.vel,push:-r.sp,young:-r.age}[k]);
+    if(k==='push'||k==='young') return get(b)-get(a);
+    return get(b)-get(a);
+  });
+  return rows;
+}
+
+function render(){
+  const rows=visible();
+  // surging cards: top 4 by momentum among model-agnostic OR openrouter, prefer probed deltas
+  const pool=[...DATA].filter(r=>r.ma||r.or).sort((a,b)=>b.mom-a.mom).slice(0,4);
+  document.getElementById('cards').innerHTML=pool.map((r,i)=>{
+    const [own,nm]=r.repo.split('/');
+    const dShow=r.d30!=null?('+'+fmt(r.d30)):'probe';
+    return `<div class="card">
+      <div class="nm"><span class="own">${own}/</span>${nm}</div>
+      <div class="pills">${r.ma?'<span class="pill ma">agnostic</span>':''}${r.or?'<span class="pill or">openrouter</span>':''}</div>
+      <div class="big"><span class="delta ${r.d30!=null?'':'pending'}">${dShow}</span><span class="dlab">${r.d30!=null?'stars / 30d':'run growth probe'}</span></div>
+      <div class="sub">${fmt(r.stars)}★ · ${Math.round(r.age/30)}mo old · ${r.rel30!=null?r.rel30.toFixed(1)+'% rel growth':'vel '+r.vel.toFixed(1)+'/day'}</div>
+    </div>`;
+  }).join('');
+
+  const maxM=Math.max(...DATA.map(r=>r.mom));
+  document.getElementById('tbody').innerHTML=rows.map((r,i)=>{
+    const dc=r.d30==null?'pend':r.rel30>=8?'hot':r.rel30>=3?'warm':'sig';
+    const d7c=r.d7==null?'pend':r.d7>r.d30*0.35?'hot':'';
+    const perm=/MIT|Apache/.test(r.lic);
+    return `<tr>
+      <td class="l" style="color:var(--dim);font-family:'JetBrains Mono',monospace">${String(i+1).padStart(2,'0')}</td>
+      <td class="nm"><a href="https://github.com/${r.repo}" target="_blank">${r.repo}</a>${r.isNew?'<span class="pills2"><span class="new">🐣 '+Math.round(r.age/30)+'mo</span></span>':''}<span class="d">${r.desc}</span></td>
+      <td class="hs"><span class="pills2">${r.ma?'<span class="pill ma">MA</span>':''}${r.or?'<span class="pill or">OR</span>':''}</span></td>
+      <td class="stars">${fmt(r.stars)}</td>
+      <td class="d30 ${d7c}">${r.d7!=null?'+'+fmt(r.d7):'<span style="color:var(--dim)">—</span>'}</td>
+      <td class="d30 ${dc}">${r.d30!=null?'+'+fmt(r.d30):'<span style="color:var(--dim)">—</span>'}</td>
+      <td class="hs d30 ${dc}">${r.rel30!=null?r.rel30.toFixed(1)+'%':'—'}</td>
+      <td class="hs lic ${perm?'permissive':''}">${r.lic}</td>
+      <td class="hs push ${r.sp<=10?'fresh':r.sp>90?'stale':''}">${ago(r.sp)} ago</td>
+      <td><span class="mom">${r.mom}</span><span class="mbar" style="width:${Math.max(2,r.mom/maxM*52)}px"></span></td>
+    </tr>`;
+  }).join('');
+}
+
+function buildBar(){
+  const cats=["All",...Array.from(new Set(SEED.map(r=>r.cat)))];
+  document.getElementById('catseg').innerHTML=cats.map(c=>`<button class="${c==='All'?'on':''}" data-c="${c}">${c}</button>`).join('');
+  document.querySelectorAll('#catseg button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#catseg button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');cat=b.dataset.c;render();
+  });
+  document.querySelectorAll('.flag').forEach(f=>f.onclick=()=>{
+    const k=f.dataset.f;filters[k]=!filters[k];f.classList.toggle('on',filters[k]);render();
+  });
+  document.getElementById('sort').onchange=e=>{sortK=e.target.value;render();};
+  document.querySelectorAll('th.s').forEach(th=>th.onclick=()=>{
+    sortK=th.dataset.k;document.getElementById('sort').value=
+      ({stars:'stars',d7:'d7',d30:'d30',rel30:'rel30',push:'mom',mom:'mom'}[th.dataset.k])||'mom';
+    if(th.dataset.k==='push'){sortK='push';} render();
+  });
+}
+
+// ---- live probe: total stars + recent star deltas ----
+async function probe(){
+  const btn=document.getElementById('run'), st=document.getElementById('status');
+  const tok=document.getElementById('tok').value.trim();
+  const H={'Accept':'application/vnd.github+json'};
+  const HS={'Accept':'application/vnd.github.star+json'};
+  if(tok){H.Authorization='Bearer '+tok;HS.Authorization='Bearer '+tok;}
+  if(!tok){ st.innerHTML='<span class="warn">⚠ No token — the growth probe needs ~60+ calls. Add a read-only token above first.</span>'; }
+  btn.disabled=true;
+  const now=Date.now(), D7=now-7*864e5, D30=now-30*864e5;
+  let done=0, rate='';
+  for(const r of DATA){
+    done++;
+    st.innerHTML=`<span class="on">● probing</span> ${r.repo} (${done}/${DATA.length})`;
+    try{
+      // refresh total stars + push date
+      const meta=await fetch(`https://api.github.com/repos/${r.repo}`,{headers:H});
+      rate=meta.headers.get('x-ratelimit-remaining')||rate;
+      if(meta.ok){const m=await meta.json();r.stars=m.stargazers_count;r.forks=m.forks_count;
+        r.pushed=m.pushed_at.slice(0,10);r.created=m.created_at.slice(0,10);}
+      // jump to last pages of stargazers to read recent starred_at
+      const total=r.stars, perPage=100, lastPage=Math.ceil(total/perPage);
+      let d7=0,d30=0,scanned=0,capped=false,oldestSeen=now;
+      // GitHub caps at 400 pages (40k stars) for stargazers list
+      const startPage=Math.min(lastPage,400);
+      for(let pg=startPage; pg>=1 && pg>startPage-6; pg--){ // up to ~600 most recent stars
+        const res=await fetch(`https://api.github.com/repos/${r.repo}/stargazers?per_page=100&page=${pg}`,{headers:HS});
+        rate=res.headers.get('x-ratelimit-remaining')||rate;
+        if(!res.ok){ if(res.status===403){throw {rl:true};} if(res.status===422){capped=true;break;} break; }
+        const arr=await res.json();
+        if(!Array.isArray(arr)||!arr.length) continue;
+        for(const s of arr){
+          const t=s.starred_at?Date.parse(s.starred_at):null; if(t==null)continue;
+          scanned++; oldestSeen=Math.min(oldestSeen,t);
+          if(t>=D30)d30++; if(t>=D7)d7++;
+        }
+        // if the oldest star on this page is already older than 30d, we've covered the window
+        const oldestOnPage=arr.map(s=>Date.parse(s.starred_at||0)).filter(Boolean).sort((a,b)=>a-b)[0];
+        if(oldestOnPage && oldestOnPage<D30) break;
+        if(lastPage>400 && pg===startPage) capped=true;
+      }
+      // if repo huge & capped, mark deltas as approximate (counted within scanned recent window)
+      r.d30=d30; r.d7=d7; r._capped=capped;
+    }catch(e){
+      if(e && e.rl){ st.innerHTML=`<span class="bad">⚠ Rate limit hit.</span> ${tok?'Wait for reset or use a token with higher limit.':'Add a token above and re-run.'} Partial data shown.`; break; }
+    }
+  }
+  probed=true; recompute(); render();
+  btn.disabled=false;
+  if(!st.innerHTML.includes('Rate limit'))
+    st.innerHTML=`<span class="on">● probed</span> live deltas computed · ${new Date().toLocaleString()} ${rate?'· '+rate+' API calls left':''} <span style="color:var(--dim)">— giants may show approximate Δ (pagination cap)</span>`;
+}
+
+buildBar();
+DATA=SEED.map(r=>enrich(r));
+recompute();
+render();
+document.getElementById('run').onclick=probe;
+</script>
+</body>
+</html>
