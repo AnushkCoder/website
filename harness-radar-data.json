@@ -1,9 +1,9 @@
 {
-  "generated": "2026-05-31T21:30:57.702Z",
+  "generated": "2026-05-31T21:48:46.837Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 167823,
-      "forks": 20042,
+      "stars": 167826,
+      "forks": 20043,
       "created": "2025-04-30",
       "pushed": "2026-05-31",
       "d7": 0,
@@ -12,7 +12,7 @@
     },
     "openai/codex": {
       "stars": 87309,
-      "forks": 12794,
+      "forks": 12795,
       "created": "2025-04-13",
       "pushed": "2026-05-31",
       "d7": 0,
@@ -20,7 +20,7 @@
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 75489,
+      "stars": 75490,
       "forks": 9576,
       "created": "2024-03-13",
       "pushed": "2026-05-31",
@@ -29,7 +29,7 @@
       "capped": true
     },
     "cline/cline": {
-      "stars": 62575,
+      "stars": 62576,
       "forks": 6573,
       "created": "2024-07-06",
       "pushed": "2026-05-31",
@@ -38,7 +38,7 @@
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 58140,
+      "stars": 58142,
       "forks": 6955,
       "created": "2025-08-09",
       "pushed": "2026-05-30",
@@ -47,7 +47,7 @@
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 46115,
+      "stars": 46117,
       "forks": 4776,
       "created": "2024-08-23",
       "pushed": "2026-05-31",
@@ -83,12 +83,12 @@
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 24859,
+      "stars": 24860,
       "forks": 1764,
       "created": "2025-05-21",
       "pushed": "2026-05-31",
       "d7": 283,
-      "d30": 559,
+      "d30": 560,
       "capped": false
     },
     "Kilo-Org/kilocode": {
@@ -141,7 +141,7 @@
       "forks": 52,
       "created": "2025-08-29",
       "pushed": "2026-05-31",
-      "d7": 53,
+      "d7": 52,
       "d30": 100,
       "capped": false
     }
