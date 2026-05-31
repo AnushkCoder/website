@@ -1,0 +1,67 @@
+# Bakes live GitHub star data for Harness Radar into a static JSON, then deploys to Pages.
+# Uses the built-in GITHUB_TOKEN — no personal access token required.
+name: Harness Radar data refresh
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # daily at 06:17 UTC
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - '.github/scripts/fetch-harness-data.mjs'
+      - '.github/workflows/harness-radar.yml'
+
+permissions:
+  contents: write   # commit the refreshed JSON
+  pages: write      # deploy to Pages in the same run
+  id-token: write
+
+# Share the "pages" group with the static deploy workflow so they never run at once.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch live star data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node .github/scripts/fetch-harness-data.mjs
+
+      - name: Commit refreshed data (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add harness-radar-data.json
+          if git diff --staged --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "chore: refresh Harness Radar star data"
+            git push || echo "push skipped (non-fatal) — deploy still uses fresh data"
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

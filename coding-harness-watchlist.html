@@ -50,11 +50,10 @@
   }
   .btn:hover{border-color:var(--sig);color:var(--sig);box-shadow:var(--glow)}
   .btn:disabled{opacity:.5;cursor:wait;box-shadow:none}
+  .btn.big{font-size:15px;font-weight:600;padding:15px 28px;border-radius:13px;letter-spacing:.01em}
+  .btn.big .pulse{width:10px;height:10px}
   .pulse{width:8px;height:8px;border-radius:50%;background:var(--sig);box-shadow:0 0 10px var(--sig);animation:pl 1.6s infinite}
   @keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
-  .tok{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:9px;padding:8px 12px;
-    font-family:'JetBrains Mono',monospace;font-size:11.5px;width:250px;outline:none}
-  .tok:focus{border-color:var(--ice)}
   .toknote{color:var(--dim);font-size:10.5px;font-family:'JetBrains Mono',monospace;max-width:250px;text-align:right;line-height:1.4}
   .toknote a{color:var(--ice);text-decoration:none}
 
@@ -163,13 +162,12 @@
       <p class="tagline">A focused watchlist of <b>open-source coding harnesses</b> that are <b>model-agnostic</b> or run on <span class="ice">OpenRouter</span>. Ranked by real <b>recent star growth</b> — fetched live from GitHub — so early movers surface before they're obvious. Built for timing outreach.</p>
     </div>
     <div class="ctrls">
-      <button class="btn" id="run"><span class="pulse"></span> Probe live growth</button>
-      <input class="tok" id="tok" type="password" placeholder="GitHub token (recommended)">
-      <div class="toknote">unauthed = 60 req/hr — not enough for the growth probe. <a href="https://github.com/settings/tokens?type=beta" target="_blank">Make a read-only token</a> → 5000/hr.</div>
+      <button class="btn big" id="run"><span class="pulse"></span> Start Search</button>
+      <div class="toknote">Star deltas are baked daily by GitHub Actions — no token needed.</div>
     </div>
   </div>
 
-  <div class="status" id="status">Seed snapshot loaded. Add a token and hit <b>Probe live growth</b> to compute real 7/30-day star deltas.</div>
+  <div class="status" id="status">Seed snapshot loaded. Hit <b>Start Search</b> to load the freshly-baked 7/30-day star deltas.</div>
 
   <div class="bar">
     <div class="seg" id="catseg"></div>
@@ -223,10 +221,10 @@
   </div>
 
   <p class="note">
-    <b class="sig">Why this measures momentum, not popularity.</b> Total stars rank incumbents. What you want is <i>acceleration</i>. The <b>Probe live growth</b> button hits GitHub's stargazer-timestamp API (<code>Accept: application/vnd.github.star+json</code>), jumps to each repo's most recent stars, and counts how many landed in the last <b>7</b> and <b>30</b> days — actual recent growth, not a guess. <b>Relative 30d</b> (Δ30 ÷ total) is the strongest early signal: a 4k-star repo adding 800 in a month (20%) is igniting; a 100k repo adding the same is flat.<br><br>
+    <b class="sig">Why this measures momentum, not popularity.</b> Total stars rank incumbents. What you want is <i>acceleration</i>. A daily <b>GitHub Action</b> hits GitHub's stargazer-timestamp API (<code>Accept: application/vnd.github.star+json</code>), jumps to each repo's most recent stars, and counts how many landed in the last <b>7</b> and <b>30</b> days — actual recent growth, not a guess. It bakes the result into a static <code>harness-radar-data.json</code> that <b>Start Search</b> loads — no token in the browser, nothing to type. <b>Relative 30d</b> (Δ30 ÷ total) is the strongest early signal: a 4k-star repo adding 800 in a month (20%) is igniting; a 100k repo adding the same is flat.<br><br>
     <b>The momentum score</b> blends recent absolute growth, relative growth (weighted highest), a youth bonus, and a push-recency factor — so a small, young, fast-climbing harness out-ranks a big sleepy one. Sort by any column header too.<br><br>
     <b>Flags are hand-verified, not guessed.</b> <span class="sig">model-agnostic</span> = the harness explicitly supports swapping providers / local models (per current docs &amp; the Pinggy and Tembo CLI surveys). <span class="ice">openrouter</span> = listed on OpenRouter's official <i>works-with</i> registry or documented OpenRouter config. Repo paths track 2026 org renames (OpenCode→anomalyco, Goose→aaif-goose, OpenHands→OpenHands, Pi→earendil-works).<br><br>
-    <b>One honest limit.</b> GitHub caps stargazer pagination, so the 7/30-day probe is exact for the small-and-mid repos that are your actual targets and approximate for the giants (OpenCode/Codex). That's the right tradeoff — the early signal lives in the small repos. For a permanent record, run this on a daily cron and diff <code>stargazers_count</code>; that history beats any single-shot probe.
+    <b>One honest limit.</b> GitHub caps stargazer pagination, so the 7/30-day probe is exact for the small-and-mid repos that are your actual targets and approximate for the giants (OpenCode/Codex). That's the right tradeoff — the early signal lives in the small repos. The daily Action commits each refresh, so over time the git history of <code>harness-radar-data.json</code> becomes a permanent record of <code>stargazers_count</code> you can diff.
   </p>
 </div>
 
@@ -355,64 +353,43 @@ function buildBar(){
   });
 }
 
-// ---- live probe: total stars + recent star deltas ----
-async function probe(){
+// ---- load baked star deltas (generated daily by GitHub Actions, no token) ----
+async function loadData(){
   const btn=document.getElementById('run'), st=document.getElementById('status');
-  const tok=document.getElementById('tok').value.trim();
-  const H={'Accept':'application/vnd.github+json'};
-  const HS={'Accept':'application/vnd.github.star+json'};
-  if(tok){H.Authorization='Bearer '+tok;HS.Authorization='Bearer '+tok;}
-  if(!tok){ st.innerHTML='<span class="warn">⚠ No token — the growth probe needs ~60+ calls. Add a read-only token above first.</span>'; }
   btn.disabled=true;
-  const now=Date.now(), D7=now-7*864e5, D30=now-30*864e5;
-  let done=0, rate='';
-  for(const r of DATA){
-    done++;
-    st.innerHTML=`<span class="on">● probing</span> ${r.repo} (${done}/${DATA.length})`;
-    try{
-      // refresh total stars + push date
-      const meta=await fetch(`https://api.github.com/repos/${r.repo}`,{headers:H});
-      rate=meta.headers.get('x-ratelimit-remaining')||rate;
-      if(meta.ok){const m=await meta.json();r.stars=m.stargazers_count;r.forks=m.forks_count;
-        r.pushed=m.pushed_at.slice(0,10);r.created=m.created_at.slice(0,10);}
-      // jump to last pages of stargazers to read recent starred_at
-      const total=r.stars, perPage=100, lastPage=Math.ceil(total/perPage);
-      let d7=0,d30=0,scanned=0,capped=false,oldestSeen=now;
-      // GitHub caps at 400 pages (40k stars) for stargazers list
-      const startPage=Math.min(lastPage,400);
-      for(let pg=startPage; pg>=1 && pg>startPage-6; pg--){ // up to ~600 most recent stars
-        const res=await fetch(`https://api.github.com/repos/${r.repo}/stargazers?per_page=100&page=${pg}`,{headers:HS});
-        rate=res.headers.get('x-ratelimit-remaining')||rate;
-        if(!res.ok){ if(res.status===403){throw {rl:true};} if(res.status===422){capped=true;break;} break; }
-        const arr=await res.json();
-        if(!Array.isArray(arr)||!arr.length) continue;
-        for(const s of arr){
-          const t=s.starred_at?Date.parse(s.starred_at):null; if(t==null)continue;
-          scanned++; oldestSeen=Math.min(oldestSeen,t);
-          if(t>=D30)d30++; if(t>=D7)d7++;
-        }
-        // if the oldest star on this page is already older than 30d, we've covered the window
-        const oldestOnPage=arr.map(s=>Date.parse(s.starred_at||0)).filter(Boolean).sort((a,b)=>a-b)[0];
-        if(oldestOnPage && oldestOnPage<D30) break;
-        if(lastPage>400 && pg===startPage) capped=true;
-      }
-      // if repo huge & capped, mark deltas as approximate (counted within scanned recent window)
-      r.d30=d30; r.d7=d7; r._capped=capped;
-    }catch(e){
-      if(e && e.rl){ st.innerHTML=`<span class="bad">⚠ Rate limit hit.</span> ${tok?'Wait for reset or use a token with higher limit.':'Add a token above and re-run.'} Partial data shown.`; break; }
-    }
+  st.innerHTML='<span class="on">● searching</span> loading freshly-baked star growth…';
+  try{
+    const res=await fetch('harness-radar-data.json?t='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const j=await res.json();
+    const repos=j.repos||{};
+    let hit=0;
+    DATA.forEach(r=>{
+      const d=repos[r.repo];
+      if(!d) return;
+      hit++;
+      if(d.stars!=null) r.stars=d.stars;
+      if(d.forks!=null) r.forks=d.forks;
+      if(d.pushed) r.pushed=d.pushed;
+      if(d.created) r.created=d.created;
+      r.d7=d.d7; r.d30=d.d30; r._capped=d.capped;
+    });
+    probed=true; recompute(); render();
+    const when=j.generated?new Date(j.generated):null;
+    st.innerHTML=`<span class="on">● live</span> ${hit} harnesses · baked by GitHub Actions${when?' · '+when.toLocaleString():''} <span style="color:var(--dim)">— refreshed daily, no token. Giants may show approximate Δ (pagination cap).</span>`;
+  }catch(e){
+    st.innerHTML=`<span class="warn">⚠ Couldn't load baked data (${e.message}) — showing seed snapshot. The daily GitHub Action generates <code>harness-radar-data.json</code>; run it once if this is a fresh deploy.</span>`;
+    recompute(); render();
+  }finally{
+    btn.disabled=false;
   }
-  probed=true; recompute(); render();
-  btn.disabled=false;
-  if(!st.innerHTML.includes('Rate limit'))
-    st.innerHTML=`<span class="on">● probed</span> live deltas computed · ${new Date().toLocaleString()} ${rate?'· '+rate+' API calls left':''} <span style="color:var(--dim)">— giants may show approximate Δ (pagination cap)</span>`;
 }
 
 buildBar();
 DATA=SEED.map(r=>enrich(r));
 recompute();
 render();
-document.getElementById('run').onclick=probe;
+document.getElementById('run').onclick=loadData;
 </script>
 </body>
 </html>
