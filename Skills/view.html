@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A skill by Anushk Pokharna." />
+  <title>Skill — Anushk Pokharna</title>
+  <style>
+    :root {
+      --text: #111;
+      --muted: #555;
+      --line: #e8e8e8;
+      --bg: #fff;
+      --code-bg: #f6f6f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.65;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .back:hover { text-decoration: underline; }
+
+    .skill-header { margin-bottom: 8px; }
+    .skill-header h1 { margin: 0 0 8px; font-size: 2.1rem; font-weight: 600; line-height: 1.2; }
+    .skill-header .desc { color: var(--muted); font-size: 1.02rem; margin: 0; }
+
+    .actions { margin: 14px 0 4px; font-size: 0.95rem; }
+    .actions a { color: var(--muted); }
+
+    hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
+
+    article h1 { font-size: 1.6rem; font-weight: 600; margin: 28px 0 10px; }
+    article h2 { font-size: 1.3rem; font-weight: 600; margin: 28px 0 10px; }
+    article h3 { font-size: 1.08rem; font-weight: 600; margin: 22px 0 8px; }
+    article p { margin: 0 0 14px; }
+    article ul, article ol { margin: 0 0 14px; padding-left: 22px; }
+    article li { margin: 0 0 8px; }
+    article blockquote {
+      margin: 0 0 14px;
+      padding: 2px 16px;
+      border-left: 3px solid var(--line);
+      color: var(--muted);
+    }
+    article code {
+      font-family: "SF Mono", "Menlo", "Consolas", monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    article pre {
+      background: var(--code-bg);
+      padding: 14px 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    article pre code { background: none; padding: 0; font-size: 0.85rem; }
+    article a { color: var(--text); }
+
+    .muted { color: var(--muted); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/Skills/">&larr; Skills</a>
+    <div class="skill-header">
+      <h1 id="skill-title">Loading&hellip;</h1>
+      <p class="desc" id="skill-desc"></p>
+    </div>
+    <div class="actions" id="actions"></div>
+    <hr />
+    <article id="content"><p class="muted">Loading skill&hellip;</p></article>
+    <p class="muted" style="margin-top: 32px;">&copy; <span id="year"></span> Anushk Pokharna</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function getParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    // Pull YAML-ish frontmatter (name/description) out of the markdown body.
+    function splitFrontmatter(text) {
+      var m = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+      if (!m) return { meta: {}, body: text };
+      var meta = {};
+      m[1].split("\n").forEach(function (line) {
+        var idx = line.indexOf(":");
+        if (idx === -1) return;
+        var key = line.slice(0, idx).trim();
+        var val = line.slice(idx + 1).trim().replace(/^["']|["']$/g, "");
+        if (key) meta[key] = val;
+      });
+      return { meta: meta, body: text.slice(m[0].length) };
+    }
+
+    var slug = getParam("skill");
+    if (!slug || !/^[a-z0-9-]+$/i.test(slug)) {
+      document.getElementById("skill-title").textContent = "Skill not found";
+      document.getElementById("content").innerHTML =
+        '<p class="muted">No valid skill specified. <a href="/Skills/">Browse all skills.</a></p>';
+    } else {
+      Promise.all([
+        fetch("skills.json").then(function (r) { return r.json(); }).catch(function () { return []; }),
+        fetch(slug + ".md").then(function (r) {
+          if (!r.ok) throw new Error("not found");
+          return r.text();
+        })
+      ])
+        .then(function (results) {
+          var manifest = results[0];
+          var raw = results[1];
+          var entry = manifest.filter(function (s) { return s.name === slug; })[0] || {};
+          var parsed = splitFrontmatter(raw);
+
+          var title = entry.title || parsed.meta.name || slug;
+          var desc = parsed.meta.description || entry.description || "";
+
+          document.getElementById("skill-title").textContent = title;
+          document.getElementById("skill-desc").textContent = desc;
+          document.title = title + " — Anushk Pokharna";
+
+          var actions = ['<a href="' + slug + '.md">raw markdown</a>'];
+          if (entry.download) actions.push('<a href="' + entry.download + '" download>download .skill</a>');
+          document.getElementById("actions").innerHTML = actions.join(" &middot; ");
+
+          document.getElementById("content").innerHTML = marked.parse(parsed.body);
+        })
+        .catch(function () {
+          document.getElementById("skill-title").textContent = "Skill not found";
+          document.getElementById("content").innerHTML =
+            '<p class="muted">Could not load "' + slug + '". <a href="/Skills/">Browse all skills.</a></p>';
+        });
+    }
+  </script>
+</body>
+</html>

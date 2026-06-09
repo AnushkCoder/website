@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Skills by Anushk Pokharna — reusable Claude/agent skills, published as readable markdown." />
+  <title>Skills — Anushk Pokharna</title>
+  <style>
+    :root {
+      --text: #111;
+      --muted: #555;
+      --line: #e8e8e8;
+      --bg: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2.1rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    a { color: var(--text); text-underline-offset: 2px; }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .back:hover { text-decoration: underline; }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 20px 0;
+    }
+
+    .skill-list { margin: 0; padding: 0; list-style: none; }
+
+    .skill-list li {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .skill-list li:last-child { border-bottom: 0; }
+
+    .skill-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .skill-title:hover { text-decoration: underline; }
+
+    .skill-desc {
+      margin: 6px 0 8px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .skill-meta { font-size: 0.9rem; }
+    .skill-meta a { color: var(--muted); }
+
+    .muted { color: var(--muted); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/">&larr; Anushk Pokharna</a>
+    <h1>Skills</h1>
+    <p>
+      Reusable skills I've built for Claude and agentic workflows. Each one is a single
+      markdown file: a focused capability with a trigger description and the procedure
+      the model follows. Open one to read it, or download the packaged
+      <code>.skill</code> to drop into your own agent.
+    </p>
+
+    <hr />
+
+    <ul class="skill-list" id="skill-list">
+      <li class="muted">Loading skills&hellip;</li>
+    </ul>
+
+    <p class="muted" style="margin-top: 28px;">&copy; <span id="year"></span> Anushk Pokharna</p>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    fetch("skills.json")
+      .then(function (r) { return r.json(); })
+      .then(function (skills) {
+        var list = document.getElementById("skill-list");
+        if (!skills.length) {
+          list.innerHTML = '<li class="muted">No skills published yet.</li>';
+          return;
+        }
+        list.innerHTML = skills.map(function (s) {
+          var dl = s.download
+            ? ' &middot; <a href="' + s.download + '" download>download .skill</a>'
+            : '';
+          return (
+            '<li>' +
+            '<a class="skill-title" href="view.html?skill=' + encodeURIComponent(s.name) + '">' +
+            s.title + '</a>' +
+            '<p class="skill-desc">' + s.description + '</p>' +
+            '<div class="skill-meta">' +
+            '<a href="view.html?skill=' + encodeURIComponent(s.name) + '">read</a>' +
+            ' &middot; <a href="' + s.file + '">raw markdown</a>' + dl +
+            '</div>' +
+            '</li>'
+          );
+        }).join("");
+      })
+      .catch(function () {
+        document.getElementById("skill-list").innerHTML =
+          '<li class="muted">Could not load skills.</li>';
+      });
+  </script>
+</body>
+</html>

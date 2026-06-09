@@ -1,0 +1,9 @@
+[
+  {
+    "name": "exec-voice",
+    "title": "Exec Voice",
+    "description": "Rewrite any draft, notes, or technical doc into a confident, skimmable, executive-friendly internal email or readout.",
+    "file": "exec-voice.md",
+    "download": "exec-voice.skill"
+  }
+]
