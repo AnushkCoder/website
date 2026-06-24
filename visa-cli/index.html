@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Visa CLI endpoint map grouped by utility: AI text, image, video, audio, scraping, mail, commerce, and platform merchant routes." />
+  <title>Visa CLI Endpoint Map — Anushk Pokharna</title>
+  <style>
+    :root {
+      --text: #111;
+      --muted: #5a5a5a;
+      --soft: #777;
+      --line: #e9e6df;
+      --bg: #fff;
+      --panel: #fffdf8;
+      --code: #f7f4ee;
+      --accent: #8a5a2b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 20px 72px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    .back:hover { color: var(--text); text-decoration: underline; }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 7vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+    }
+
+    .lede {
+      max-width: 660px;
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 22px 0 30px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      background: var(--panel);
+    }
+
+    .note {
+      margin: 0 0 24px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: var(--panel);
+      font-size: 0.97rem;
+    }
+
+    .utilities {
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    details[open] {
+      background: linear-gradient(180deg, var(--panel), #fff 140px);
+    }
+
+    summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "+";
+      color: var(--accent);
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    details[open] summary::after { content: "–"; }
+
+    .utility {
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+
+    .count {
+      color: var(--soft);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .content {
+      padding: 0 18px 18px;
+    }
+
+    .hint {
+      margin: -4px 0 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(160px, 0.7fr);
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 6px;
+      background: var(--code);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.84rem;
+      overflow-wrap: anywhere;
+    }
+
+    .desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .surface {
+      color: var(--soft);
+      font-size: 0.86rem;
+      text-align: right;
+    }
+
+    footer {
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    a { color: var(--text); text-underline-offset: 2px; }
+
+    @media (max-width: 680px) {
+      li { grid-template-columns: 1fr; gap: 4px; }
+      .surface { text-align: left; }
+      summary { align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/">← Anushk.tech</a>
+
+    <h1>Visa CLI endpoint map</h1>
+    <p class="lede">
+      A utility-first map of the Visa CLI tool surface: searchable catalog tools plus platform merchant routes exposed directly in MCP.
+    </p>
+
+    <div class="meta" aria-label="Endpoint summary">
+      <span class="pill">43 dynamic catalog endpoints</span>
+      <span class="pill">30 platform JIT MCP endpoints</span>
+      <span class="pill">73 total tools</span>
+    </div>
+
+    <p class="note">
+      Catalog endpoints are run through <code>discover_tools</code> → <code>execute_tool</code>. Platform JIT endpoints are direct <code>mcp__visa_cli__...</code> tools generated from merchant routes.
+    </p>
+
+    <section class="utilities" aria-label="Visa CLI endpoints by utility">
+      <details open>
+        <summary><span class="utility">AI text / reasoning</span><span class="count">22 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for chat, coding, summarization, planning, web-grounded answers, and model comparison.</p>
+          <ul>
+            <li><span><code>or-gpt-4o-mini</code></span><span class="surface">cheap general LLM · catalog</span></li>
+            <li><span><code>or-gpt-4o</code></span><span class="surface">general multimodal LLM · catalog</span></li>
+            <li><span><code>or-gpt-55</code></span><span class="surface">frontier OpenAI reasoning · catalog</span></li>
+            <li><span><code>or-gpt-55-pro</code></span><span class="surface">highest OpenAI tier · catalog</span></li>
+            <li><span><code>or-claude-haiku</code></span><span class="surface">fast Claude · catalog</span></li>
+            <li><span><code>or-claude-sonnet</code></span><span class="surface">coding / analysis · catalog</span></li>
+            <li><span><code>or-claude-opus</code></span><span class="surface">deep reasoning · catalog</span></li>
+            <li><span><code>or-claude-opus-fast</code></span><span class="surface">fast Opus variant · catalog</span></li>
+            <li><span><code>or-gemini-3-pro</code></span><span class="surface">frontier Gemini · catalog</span></li>
+            <li><span><code>or-gemini-35-flash</code></span><span class="surface">fast Gemini · catalog</span></li>
+            <li><span><code>or-gemini-3-flash</code></span><span class="surface">agentic Gemini · catalog</span></li>
+            <li><span><code>or-gemini-3-lite</code></span><span class="surface">low-latency Gemini · catalog</span></li>
+            <li><span><code>or-gemini-pro</code></span><span class="surface">Gemini 2.0 Flash · catalog</span></li>
+            <li><span><code>or-deepseek-chat</code></span><span class="surface">coding / math · catalog</span></li>
+            <li><span><code>or-deepseek-r1</code></span><span class="surface">reasoning · catalog</span></li>
+            <li><span><code>or-llama-70b</code></span><span class="surface">open model · catalog</span></li>
+            <li><span><code>or-llama-8b</code></span><span class="surface">lightweight open model · catalog</span></li>
+            <li><span><code>or-mistral-large</code></span><span class="surface">multilingual / EU languages · catalog</span></li>
+            <li><span><code>or-mistral-small</code></span><span class="surface">fast Mistral · catalog</span></li>
+            <li><span><code>or-qwen-72b</code></span><span class="surface">coding / multilingual · catalog</span></li>
+            <li><span><code>or-phi-4</code></span><span class="surface">compact reasoning · catalog</span></li>
+            <li><span><code>or-perplexity-sonar</code></span><span class="surface">web-search answers · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Image generation / editing</span><span class="count">13 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for image drafts, polished visuals, posters, icons, image edits, and upscaling.</p>
+          <ul>
+            <li><span><code>fal-fast-sdxl</code></span><span class="surface">fast image draft · catalog</span></li>
+            <li><span><code>fal-flux-schnell</code></span><span class="surface">fastest FLUX draft · catalog</span></li>
+            <li><span><code>fal-flux-dev</code></span><span class="surface">open FLUX generation · catalog</span></li>
+            <li><span><code>fal-flux-pro</code></span><span class="surface">balanced image generation · catalog</span></li>
+            <li><span><code>fal-flux-pro-ultra</code></span><span class="surface">highest quality image · catalog</span></li>
+            <li><span><code>fal-ideogram-v2</code></span><span class="surface">text/logos/posters · catalog</span></li>
+            <li><span><code>fal-ideogram-v2-turbo</code></span><span class="surface">fast text rendering · catalog</span></li>
+            <li><span><code>fal-recraft-v3</code></span><span class="surface">icons / illustrations · catalog</span></li>
+            <li><span><code>or-gemini-nano-banana</code></span><span class="surface">Gemini image gen/edit · catalog</span></li>
+            <li><span><code>or-gemini-nano-banana-2</code></span><span class="surface">fast Gemini image gen/edit · catalog</span></li>
+            <li><span><code>or-gemini-nano-banana-pro</code></span><span class="surface">pro Gemini image gen/edit · catalog</span></li>
+            <li><span><code>fal-aura-sr</code></span><span class="surface">image upscaling · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Video generation</span><span class="count">3 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for text-to-video and image-to-video animation.</p>
+          <ul>
+            <li><span><code>fal-minimax-video</code></span><span class="surface">text-to-video · catalog</span></li>
+            <li><span><code>fal-kling-video</code></span><span class="surface">cinematic text-to-video · catalog</span></li>
+            <li><span><code>fal-kling-i2v</code></span><span class="surface">image-to-video · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Audio / music / voice</span><span class="count">4 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for songs, ambient sound, sound effects, transcription, and voice cloning.</p>
+          <ul>
+            <li><span><code>fal-ace-step-music</code></span><span class="surface">music generation · catalog</span></li>
+            <li><span><code>fal-stable-audio</code></span><span class="surface">sound effects / ambient · catalog</span></li>
+            <li><span><code>fal-whisper</code></span><span class="surface">speech-to-text · catalog</span></li>
+            <li><span><code>fal-metavoice</code></span><span class="surface">voice cloning TTS · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">3D assets</span><span class="count">1 endpoint</span></summary>
+        <div class="content">
+          <p class="hint">Use to turn an image into a downloadable 3D mesh.</p>
+          <ul>
+            <li><span><code>fal-trellis-3d</code></span><span class="surface">image-to-3D · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Web scraping / content retrieval</span><span class="count">7 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for scraping pages, searching publications, retrieving feeds, and accessing paid posts.</p>
+          <ul>
+            <li><span><code>mcp__visa_cli__orth_inc_3dea0e6d_post_olostep_v1_scrapes_x402</code></span><span class="surface">scrape a URL · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_get_api_v1_search</code></span><span class="surface">Dripstack search · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_get_api_p_2a87b0a5487f</code></span><span class="surface">publication/post listing · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_get_api_v_0e35f477c215</code></span><span class="surface">publication detail · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_get_api_v_984a992571a3</code></span><span class="surface">paid post access · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_post_api__b980bd6d41ee</code></span><span class="surface">refresh publication feed · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__royal_markets_inc_c41fc6a1_get_api_v_ad722acb2391</code></span><span class="surface">route/index metadata · platform JIT</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Physical mail / postal</span><span class="count">4 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for letters, postcards, bulk mail, and PostalForm workflow discovery.</p>
+          <ul>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_g_5183f493141d</code></span><span class="surface">list/search forms · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_10f7a762416c</code></span><span class="surface">send mail · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_ce946a8bf012</code></span><span class="surface">send mail · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_e45da0f975bb</code></span><span class="surface">mail quote / preview · platform JIT</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Real-world commerce</span><span class="count">3 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for ordering physical goods through merchant-specific flows.</p>
+          <ul>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_5175adbc576c</code></span><span class="surface">flower order · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_aba331ee9c6a</code></span><span class="surface">flower order · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__mindbike_technologies_llc_406e1238_p_c6d506940b06</code></span><span class="surface">flower quote / preview · platform JIT</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Video project workflow</span><span class="count">4 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for Vibechopper project setup, uploads, credits, and video creation.</p>
+          <ul>
+            <li><span><code>mcp__visa_cli__lander_media_llc_c66aa3e7_post_credit_mpp</code></span><span class="surface">top up credit · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__lander_media_llc_c66aa3e7_post_projects_mpp</code></span><span class="surface">create project · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__lander_media_llc_c66aa3e7_post_uploads_mpp</code></span><span class="surface">create upload session · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__lander_media_llc_c66aa3e7_post_videos_mpp</code></span><span class="surface">create/process video · platform JIT</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Product / event / branded content</span><span class="count">12 endpoints</span></summary>
+        <div class="content">
+          <p class="hint">Use for Goot1 product pages, events, tickets, prompt/model routes, and branded video/content workflows.</p>
+          <ul>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_04af52701d50</code></span><span class="surface">product/content creation · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_7eaa0cb832b9</code></span><span class="surface">product/content creation · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_4db9b0f2086d</code></span><span class="surface">event/ticket creation · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_985ef59e4b51</code></span><span class="surface">event/ticket creation · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_0c9898ab5911</code></span><span class="surface">prompt/model route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_0dc0fea2e225</code></span><span class="surface">prompt/model route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_1b8bdec912a0</code></span><span class="surface">prompt/model route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_baf909cdb8e8</code></span><span class="surface">prompt/model route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_3cbf4b113e07</code></span><span class="surface">branded video route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_434f92d947a8</code></span><span class="surface">branded content route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_d547ec9fc58b</code></span><span class="surface">branded content route · platform JIT</span></li>
+            <li><span><code>mcp__visa_cli__one54_llc_d72c3e86_post_api_agent_cr_fe8947c8a925</code></span><span class="surface">branded video route · platform JIT</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="utility">Status / async utility</span><span class="count">1 endpoint</span></summary>
+        <div class="content">
+          <p class="hint">Use to poll asynchronous fal jobs returned by video, music, and 3D generation tools.</p>
+          <ul>
+            <li><span><code>check_fal_status</code></span><span class="surface">async fal job status · catalog</span></li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <footer>
+      Endpoint availability changes over time. This map reflects the Visa CLI tool surface observed on June 24, 2026.
+    </footer>
+  </main>
+</body>
+</html>
