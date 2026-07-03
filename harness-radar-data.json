@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-02T09:32:23.480Z",
+  "generated": "2026-07-03T09:35:01.662Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 181513,
-      "forks": 22399,
+      "stars": 181912,
+      "forks": 22482,
       "created": "2025-04-30",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 95017,
-      "forks": 14086,
+      "stars": 95284,
+      "forks": 14132,
       "created": "2025-04-13",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 79096,
-      "forks": 10068,
+      "stars": 79233,
+      "forks": 10082,
       "created": "2024-03-13",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 64205,
-      "forks": 6820,
+      "stars": 64239,
+      "forks": 6825,
       "created": "2024-07-06",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 67106,
-      "forks": 8224,
+      "stars": 67343,
+      "forks": 8265,
       "created": "2025-08-09",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 50559,
-      "forks": 5422,
+      "stars": 50596,
+      "forks": 5432,
       "created": "2024-08-23",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 46940,
-      "forks": 4679,
+      "stars": 46981,
+      "forks": 4684,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,66 +65,66 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 34635,
-      "forks": 4925,
+      "stars": 34665,
+      "forks": 4937,
       "created": "2023-05-24",
       "pushed": "2026-07-01",
-      "d7": 216,
-      "d30": 535,
+      "d7": 201,
+      "d30": 565,
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 25732,
-      "forks": 2591,
+      "stars": 25755,
+      "forks": 2594,
       "created": "2025-06-26",
-      "pushed": "2026-07-02",
-      "d7": 258,
-      "d30": 532,
+      "pushed": "2026-07-03",
+      "d7": 240,
+      "d30": 555,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 25967,
-      "forks": 1892,
+      "stars": 26004,
+      "forks": 1900,
       "created": "2025-05-21",
-      "pushed": "2026-07-02",
-      "d7": 303,
-      "d30": 567,
+      "pushed": "2026-07-03",
+      "d7": 302,
+      "d30": 504,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 25370,
-      "forks": 2834,
+      "stars": 25458,
+      "forks": 2839,
       "created": "2025-03-10",
-      "pushed": "2026-07-02",
-      "d7": 570,
-      "d30": 570,
+      "pushed": "2026-07-03",
+      "d7": 558,
+      "d30": 558,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15492,
-      "forks": 1153,
+      "stars": 15495,
+      "forks": 1154,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
       "d7": 22,
-      "d30": 86,
+      "d30": 87,
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7445,
-      "forks": 1448,
+      "stars": 7447,
+      "forks": 1450,
       "created": "2024-12-08",
-      "pushed": "2026-07-02",
-      "d7": 20,
-      "d30": 129,
+      "pushed": "2026-07-03",
+      "d7": 22,
+      "d30": 126,
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4346,
-      "forks": 392,
+      "stars": 4349,
+      "forks": 393,
       "created": "2023-03-24",
-      "pushed": "2026-07-02",
+      "pushed": "2026-07-03",
       "d7": 8,
-      "d30": 43,
+      "d30": 46,
       "capped": false
     },
     "truffle-ai/dexto": {
@@ -137,12 +137,12 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 726,
-      "forks": 65,
+      "stars": 727,
+      "forks": 64,
       "created": "2025-08-29",
       "pushed": "2026-07-01",
       "d7": 17,
-      "d30": 74,
+      "d30": 73,
       "capped": false
     }
   }
