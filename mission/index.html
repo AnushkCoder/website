@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Why Anushk Pokharna started hackerhouse: bringing access to AI to places that don't have it." />
+  <title>Mission — Anushk Pokharna</title>
+  <style>
+    :root {
+      --text: #111;
+      --muted: #555;
+      --line: #e8e8e8;
+      --bg: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Georgia", "Times New Roman", serif;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2.1rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin: 32px 0 10px;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    a {
+      color: var(--text);
+      text-underline-offset: 2px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 20px 0;
+    }
+
+    .statement {
+      margin: 24px 0;
+      padding: 20px 24px;
+      border-left: 3px solid var(--text);
+      background: #fafafa;
+    }
+
+    .statement p {
+      color: var(--text);
+      font-size: 1.1rem;
+      font-style: italic;
+      margin: 0;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/">&larr; Back</a>
+    <h1>Mission</h1>
+    <p class="muted">Why I started hackerhouse.</p>
+
+    <hr />
+
+    <p>
+      In sixth grade, I got into robotics. There was no one around to teach me, so I learned everything online — forums, YouTube, trial and error. It worked, but it was hard. I was doing this in Ahmedabad, where there just weren't many resources, mentors, or people building things around me. If you wanted to learn something cutting-edge as a kid, you were mostly on your own.
+    </p>
+    <p>
+      By my second year of college, I got the chance to go to the U.S. and learn from some of the best people working in AI. It was a different world — access to the smartest people, the newest ideas, the right rooms to be in.
+    </p>
+    <p>
+      When I came back to Ahmedabad, I noticed the same gap I'd felt as a kid, just at a bigger scale. Very few people in my city were building with AI. The opportunities, the community, the exposure — all of it was limited compared to what I'd just seen abroad.
+    </p>
+    <p>
+      That's why I started hackerhouse. I wanted to bring some of what I got access to in the U.S. back to places like Ahmedabad, so people don't have to figure it all out alone the way I did.
+    </p>
+
+    <h2>Mission statement</h2>
+    <div class="statement">
+      <p>
+        AI is the most transformational technology we have. Right now, access to it is concentrated in a handful of developed countries. I'm building hackerhouse to spread that access to the developing world — so talent isn't limited by geography.
+      </p>
+    </div>
+
+    <p class="muted" style="margin-top: 28px;">© <span id="year"></span> Anushk Pokharna</p>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
