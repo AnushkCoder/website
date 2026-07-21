@@ -73,6 +73,7 @@ app.get('/api/hi', async (req, res) => {
       body: JSON.stringify({ paymentPayload: payment, paymentRequirements: requirements }),
     });
     const verify = await verifyRes.json();
+    console.log('VERIFY', verifyRes.status, JSON.stringify(verify));
 
     if (!verify.isValid) {
       return res.status(402).json({
