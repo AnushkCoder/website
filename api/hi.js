@@ -104,7 +104,7 @@ app.get('/api/hi', async (req, res) => {
   const allHeaders = Object.keys(req.headers);
   const hasPaymentHint = allHeaders.some(h => h.includes('payment') || h.includes('x402') || h.includes('signature') || h.includes('authorization'));
   if (!paymentHeader && hasPaymentHint) {
-    return res.status(402).json({ debug: 'payment hint found', headers: req.headers });
+    return res.status(200).json({ debug: 'payment hint found', headers: req.headers });
   }
 
   if (!paymentHeader) {
