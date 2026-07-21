@@ -81,6 +81,17 @@ async function verifyLocally(payment, requirements) {
 
 const app = express();
 
+// Temporary: return the raw payment payload so we can inspect its structure
+app.get('/api/inspect', (req, res) => {
+  const h = req.headers['x-payment'];
+  if (!h) return res.json({ error: 'no X-PAYMENT header' });
+  try {
+    res.json(decodePayment(h));
+  } catch (e) {
+    res.json({ error: e.message, raw: h.slice(0, 200) });
+  }
+});
+
 app.get('/api/hi', async (req, res) => {
   const url = resourceUrl(req);
 
