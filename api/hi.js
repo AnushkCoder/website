@@ -124,7 +124,7 @@ app.get('/api/hi', async (req, res) => {
     const result = await verifyLocally(payment, requirements);
 
     if (!result.isValid) {
-      return res.status(402).json({ x402Version: 2, error: result.reason });
+      return res.status(402).json({ x402Version: 2, error: result.reason, _debug: { payloadKeys: Object.keys(payment), payloadPayloadKeys: payment?.payload ? Object.keys(payment.payload) : null, authKeys: payment?.payload?.authorization ? Object.keys(payment.payload.authorization) : null } });
     }
 
     const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
