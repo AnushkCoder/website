@@ -100,6 +100,13 @@ app.get('/api/hi', async (req, res) => {
   // v2 uses PAYMENT-SIGNATURE; also accept X-PAYMENT for v1 clients
   const paymentHeader = req.headers['payment-signature'] || req.headers['x-payment'];
 
+  // Debug: on second request (wallet retry), dump all headers
+  const allHeaders = Object.keys(req.headers);
+  const hasPaymentHint = allHeaders.some(h => h.includes('payment') || h.includes('x402') || h.includes('signature') || h.includes('authorization'));
+  if (!paymentHeader && hasPaymentHint) {
+    return res.status(402).json({ debug: 'payment hint found', headers: req.headers });
+  }
+
   if (!paymentHeader) {
     const challenge = {
       x402Version: 2,
