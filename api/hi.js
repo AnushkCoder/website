@@ -98,20 +98,11 @@ app.get('/api/hi', async (req, res) => {
   };
 
   // Accept all plausible v2/v1 payment header names
-  const allHeaders = req.headers;
   const paymentHeader =
-    allHeaders['payment-signature'] ||
-    allHeaders['x-payment'] ||
-    allHeaders['x-payment-payload'] ||
-    allHeaders['x402-payment'] ||
-    allHeaders['x-402-payment'];
-
-  // Debug: any request with a header we don't recognise → return all headers as 200
-  const knownNonPayment = new Set(['host','connection','accept','accept-encoding','accept-language','user-agent','cache-control','pragma','referer','origin','content-type','content-length','authorization']);
-  const unknownHeaders = Object.keys(allHeaders).filter(h => !knownNonPayment.has(h) && !h.startsWith('x-forwarded') && !h.startsWith('x-vercel') && !h.startsWith('x-real') && h !== 'x-payment' && h !== 'payment-signature');
-  if (!paymentHeader && unknownHeaders.length > 0) {
-    return res.status(200).json({ debug: 'unknown headers on retry', unknownHeaders, allHeaders });
-  }
+    req.headers['payment-signature'] ||
+    req.headers['x-payment'] ||
+    req.headers['x-payment-payload'] ||
+    req.headers['x402-payment'];
 
   if (!paymentHeader) {
     const challenge = {
@@ -138,7 +129,8 @@ app.get('/api/hi', async (req, res) => {
     const result = await verifyLocally(payment, requirements);
 
     if (!result.isValid) {
-      return res.status(402).json({ x402Version: 2, error: result.reason });
+      // Return 200 so wallet_pay captures the error + payload structure for debugging
+      return res.status(200).json({ _debug: true, error: result.reason, paymentKeys: Object.keys(payment), payloadKeys: payment?.payload ? Object.keys(payment.payload) : null, authKeys: payment?.payload?.authorization ? Object.keys(payment.payload.authorization) : null });
     }
 
     const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
