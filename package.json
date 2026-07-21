@@ -1,0 +1,12 @@
+{
+  "name": "anushk-website",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.21.2",
+    "x402-express": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
