@@ -97,14 +97,20 @@ app.get('/api/hi', async (req, res) => {
     extra: { name: 'USDC', decimals: 6 },
   };
 
-  // v2 uses PAYMENT-SIGNATURE; also accept X-PAYMENT for v1 clients
-  const paymentHeader = req.headers['payment-signature'] || req.headers['x-payment'];
+  // Accept all plausible v2/v1 payment header names
+  const allHeaders = req.headers;
+  const paymentHeader =
+    allHeaders['payment-signature'] ||
+    allHeaders['x-payment'] ||
+    allHeaders['x-payment-payload'] ||
+    allHeaders['x402-payment'] ||
+    allHeaders['x-402-payment'];
 
-  // Debug: on second request (wallet retry), dump all headers
-  const allHeaders = Object.keys(req.headers);
-  const hasPaymentHint = allHeaders.some(h => h.includes('payment') || h.includes('x402') || h.includes('signature') || h.includes('authorization'));
-  if (!paymentHeader && hasPaymentHint) {
-    return res.status(200).json({ debug: 'payment hint found', headers: req.headers });
+  // Debug: any request with a header we don't recognise → return all headers as 200
+  const knownNonPayment = new Set(['host','connection','accept','accept-encoding','accept-language','user-agent','cache-control','pragma','referer','origin','content-type','content-length','authorization']);
+  const unknownHeaders = Object.keys(allHeaders).filter(h => !knownNonPayment.has(h) && !h.startsWith('x-forwarded') && !h.startsWith('x-vercel') && !h.startsWith('x-real') && h !== 'x-payment' && h !== 'payment-signature');
+  if (!paymentHeader && unknownHeaders.length > 0) {
+    return res.status(200).json({ debug: 'unknown headers on retry', unknownHeaders, allHeaders });
   }
 
   if (!paymentHeader) {
