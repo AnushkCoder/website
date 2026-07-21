@@ -122,6 +122,7 @@ app.get('/api/hi', async (req, res) => {
 
   try {
     const payment = decodePayment(paymentHeader);
+    return res.json({ _INSPECT: true, payment }); // TEMP
     const result = await verifyLocally(payment, requirements);
 
     if (!result.isValid) {
