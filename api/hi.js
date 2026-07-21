@@ -45,7 +45,7 @@ app.get('/api/hi', async (req, res) => {
   const paymentHeader = req.headers['x-payment'];
 
   if (!paymentHeader) {
-    return res.status(402).json({
+    const challenge = {
       x402Version: 2,
       error: 'Payment required',
       resource: { url, description: requirements.description, mimeType: requirements.mimeType },
@@ -58,7 +58,10 @@ app.get('/api/hi', async (req, res) => {
         maxTimeoutSeconds: requirements.maxTimeoutSeconds,
         extra: requirements.extra,
       }],
-    });
+    };
+    const encoded = Buffer.from(JSON.stringify(challenge)).toString('base64url');
+    res.set('PAYMENT-REQUIRED', encoded);
+    return res.status(402).json(challenge);
   }
 
   try {
