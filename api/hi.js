@@ -1,9 +1,27 @@
 import express from 'express';
+import { recoverTypedDataAddress } from 'viem';
 
 const MERCHANT_WALLET = '0x06B62EAE5CF688fc993bB84996B83E8C59f341A7';
 const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
-const FACILITATOR = 'https://x402.org/facilitator';
 const AMOUNT = '10000'; // 0.01 USDC (6 decimals)
+
+const USDC_DOMAIN = {
+  name: 'USD Coin',
+  version: '2',
+  chainId: 8453,
+  verifyingContract: USDC_BASE,
+};
+
+const TRANSFER_TYPES = {
+  TransferWithAuthorization: [
+    { name: 'from',        type: 'address' },
+    { name: 'to',         type: 'address' },
+    { name: 'value',      type: 'uint256' },
+    { name: 'validAfter', type: 'uint256' },
+    { name: 'validBefore',type: 'uint256' },
+    { name: 'nonce',      type: 'bytes32' },
+  ],
+};
 
 function jumble(str) {
   const chars = str.split('');
@@ -15,13 +33,50 @@ function jumble(str) {
 }
 
 function resourceUrl(req) {
-  // Explicitly read Vercel's forwarded proto — never trust req.protocol alone
   const proto = (req.headers['x-forwarded-proto'] || '').split(',')[0].trim() || 'https';
   return `${proto}://${req.headers.host}/api/hi`;
 }
 
 function decodePayment(header) {
   return JSON.parse(Buffer.from(header, 'base64url').toString('utf-8'));
+}
+
+async function verifyLocally(payment, requirements) {
+  const auth = payment?.payload?.authorization;
+  const sig  = payment?.payload?.signature;
+  if (!auth || !sig) return { isValid: false, reason: 'Missing authorization or signature' };
+
+  const { from, to, value, validAfter, validBefore, nonce } = auth;
+  const now = BigInt(Math.floor(Date.now() / 1000));
+
+  if (to?.toLowerCase() !== requirements.payTo.toLowerCase())
+    return { isValid: false, reason: `Wrong recipient: ${to}` };
+  if (BigInt(value ?? 0) < BigInt(requirements.amount))
+    return { isValid: false, reason: `Amount too low: ${value}` };
+  if (now < BigInt(validAfter ?? 0))
+    return { isValid: false, reason: 'Not yet valid' };
+  if (now > BigInt(validBefore ?? 0))
+    return { isValid: false, reason: 'Expired' };
+
+  const recovered = await recoverTypedDataAddress({
+    domain: USDC_DOMAIN,
+    types: TRANSFER_TYPES,
+    primaryType: 'TransferWithAuthorization',
+    message: {
+      from,
+      to,
+      value:       BigInt(value),
+      validAfter:  BigInt(validAfter),
+      validBefore: BigInt(validBefore),
+      nonce,
+    },
+    signature: sig,
+  });
+
+  if (recovered.toLowerCase() !== from?.toLowerCase())
+    return { isValid: false, reason: `Signature mismatch: recovered ${recovered}` };
+
+  return { isValid: true, payer: from };
 }
 
 const app = express();
@@ -66,35 +121,14 @@ app.get('/api/hi', async (req, res) => {
 
   try {
     const payment = decodePayment(paymentHeader);
+    const result = await verifyLocally(payment, requirements);
 
-    const verifyRes = await fetch(`${FACILITATOR}/verify`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentPayload: payment, paymentRequirements: requirements }),
-    });
-    const verify = await verifyRes.json();
-    console.log('VERIFY', verifyRes.status, JSON.stringify(verify));
-
-    if (!verify.isValid) {
-      return res.status(402).json({
-        x402Version: 2,
-        error: verify.invalidReason || 'Payment verification failed',
-        _debug: { facilitatorStatus: verifyRes.status, facilitatorResponse: verify },
-      });
+    if (!result.isValid) {
+      return res.status(402).json({ x402Version: 2, error: result.reason });
     }
 
-    const settleRes = await fetch(`${FACILITATOR}/settle`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentPayload: payment, paymentRequirements: requirements }),
-    });
-    const settle = await settleRes.json();
-
-    if (!settle.success) {
-      return res.status(402).json({ x402Version: 2, error: 'Settlement failed' });
-    }
-
-    res.set('X-PAYMENT-RESPONSE', Buffer.from(JSON.stringify(settle)).toString('base64'));
+    const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
+    res.set('X-PAYMENT-RESPONSE', Buffer.from(JSON.stringify(receipt)).toString('base64'));
     res.json({ agent: 'Agent Cuy', result: jumble('Cuy Sheffield') });
 
   } catch (err) {
