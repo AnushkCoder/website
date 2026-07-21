@@ -79,6 +79,7 @@ app.get('/api/hi', async (req, res) => {
       return res.status(402).json({
         x402Version: 2,
         error: verify.invalidReason || 'Payment verification failed',
+        _debug: { facilitatorStatus: verifyRes.status, facilitatorResponse: verify },
       });
     }
 
