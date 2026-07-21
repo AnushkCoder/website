@@ -81,7 +81,6 @@ async function verifyLocally(payment, requirements) {
 
 const app = express();
 
-
 app.get('/api/hi', async (req, res) => {
   const url = resourceUrl(req);
 
@@ -98,7 +97,8 @@ app.get('/api/hi', async (req, res) => {
     extra: { name: 'USDC', decimals: 6 },
   };
 
-  const paymentHeader = req.headers['x-payment'];
+  // v2 uses PAYMENT-SIGNATURE; also accept X-PAYMENT for v1 clients
+  const paymentHeader = req.headers['payment-signature'] || req.headers['x-payment'];
 
   if (!paymentHeader) {
     const challenge = {
@@ -122,7 +122,6 @@ app.get('/api/hi', async (req, res) => {
 
   try {
     const payment = decodePayment(paymentHeader);
-    return res.json({ _INSPECT: true, payment }); // TEMP
     const result = await verifyLocally(payment, requirements);
 
     if (!result.isValid) {
@@ -130,7 +129,7 @@ app.get('/api/hi', async (req, res) => {
     }
 
     const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
-    res.set('X-PAYMENT-RESPONSE', Buffer.from(JSON.stringify(receipt)).toString('base64'));
+    res.set('PAYMENT-RESPONSE', Buffer.from(JSON.stringify(receipt)).toString('base64url'));
     res.json({ agent: 'Agent Cuy', result: jumble('Cuy Sheffield') });
 
   } catch (err) {
