@@ -130,7 +130,7 @@ app.get('/api/hi', async (req, res) => {
 
     if (!result.isValid) {
       // Return 200 so wallet_pay captures the full payload for debugging
-      return res.status(200).json({ _debug: true, error: result.reason, authorization: payment?.payload?.authorization, signature: payment?.payload?.signature?.slice(0,20) + '...' });
+      return res.status(200).json({ _debug: true, error: result.reason, authorization: payment?.payload?.authorization, signature: payment?.payload?.signature });
     }
 
     const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
