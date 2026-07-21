@@ -5,12 +5,6 @@ const MERCHANT_WALLET = '0x06B62EAE5CF688fc993bB84996B83E8C59f341A7';
 const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
 const AMOUNT = '10000'; // 0.01 USDC (6 decimals)
 
-const USDC_DOMAIN = {
-  name: 'USD Coin',
-  version: '2',
-  chainId: 8453,
-  verifyingContract: USDC_BASE,
-};
 
 const TRANSFER_TYPES = {
   TransferWithAuthorization: [
@@ -46,6 +40,15 @@ async function verifyLocally(payment, requirements) {
   const sig  = payment?.payload?.signature;
   if (!auth || !sig) return { isValid: false, reason: 'Missing authorization or signature' };
 
+  // Build domain from the extra in the accepted payment — must match what the client used to sign
+  const extra = payment?.accepted?.extra ?? requirements.extra;
+  const domain = {
+    name:            extra?.name    ?? 'USD Coin',
+    version:         extra?.version ?? '2',
+    chainId:         8453,
+    verifyingContract: USDC_BASE,
+  };
+
   const { from, to, value, validAfter, validBefore, nonce } = auth;
   const now = BigInt(Math.floor(Date.now() / 1000));
 
@@ -59,7 +62,7 @@ async function verifyLocally(payment, requirements) {
     return { isValid: false, reason: 'Expired' };
 
   const recovered = await recoverTypedDataAddress({
-    domain: USDC_DOMAIN,
+    domain,
     types: TRANSFER_TYPES,
     primaryType: 'TransferWithAuthorization',
     message: {
@@ -94,7 +97,7 @@ app.get('/api/hi', async (req, res) => {
     resource: url,
     description: 'Agent Cuy — jumbles "Cuy Sheffield" for 0.01 USDC',
     mimeType: 'application/json',
-    extra: { name: 'USDC', decimals: 6 },
+    extra: { name: 'USD Coin', version: '2', decimals: 6 },
   };
 
   // Accept all plausible v2/v1 payment header names
@@ -130,7 +133,7 @@ app.get('/api/hi', async (req, res) => {
 
     if (!result.isValid) {
       // Return 200 so wallet_pay captures the full payload for debugging
-      return res.status(200).json({ _debug: true, error: result.reason, authorization: payment?.payload?.authorization, signature: payment?.payload?.signature });
+      return res.status(402).json({ x402Version: 2, error: result.reason });
     }
 
     const receipt = { success: true, payer: result.payer, network: 'eip155:8453', amount: AMOUNT };
