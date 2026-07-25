@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-24T08:42:27.047Z",
+  "generated": "2026-07-25T08:23:36.051Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 189168,
-      "forks": 23916,
+      "stars": 189501,
+      "forks": 23976,
       "created": "2025-04-30",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 101105,
-      "forks": 15152,
+      "stars": 101291,
+      "forks": 15184,
       "created": "2025-04-13",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 81912,
-      "forks": 10481,
+      "stars": 82019,
+      "forks": 10496,
       "created": "2024-03-13",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 64997,
-      "forks": 6976,
+      "stars": 65032,
+      "forks": 6982,
       "created": "2024-07-06",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 76688,
-      "forks": 9438,
+      "stars": 77234,
+      "forks": 9494,
       "created": "2025-08-09",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 51577,
-      "forks": 5679,
+      "stars": 51655,
+      "forks": 5698,
       "created": "2024-08-23",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 47652,
-      "forks": 4759,
+      "stars": 47683,
+      "forks": 4769,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,35 +65,35 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35078,
+      "stars": 35102,
       "forks": 5105,
       "created": "2023-05-24",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 26280,
-      "forks": 2714,
+      "stars": 26298,
+      "forks": 2717,
       "created": "2025-06-26",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 26807,
-      "forks": 2055,
+      "stars": 26832,
+      "forks": 2066,
       "created": "2025-05-21",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26488,
-      "forks": 2966,
+      "stars": 26513,
+      "forks": 2970,
       "created": "2025-03-10",
       "pushed": "2026-07-24",
       "d7": 0,
@@ -101,7 +101,7 @@
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15543,
+      "stars": 15542,
       "forks": 1166,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
@@ -110,19 +110,19 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7464,
-      "forks": 1443,
+      "stars": 7462,
+      "forks": 1442,
       "created": "2024-12-08",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "gptme/gptme": {
       "stars": 4369,
-      "forks": 396,
+      "forks": 397,
       "created": "2023-03-24",
-      "pushed": "2026-07-24",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -131,13 +131,13 @@
       "stars": 642,
       "forks": 73,
       "created": "2025-03-24",
-      "pushed": "2026-07-17",
+      "pushed": "2026-07-25",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 770,
+      "stars": 775,
       "forks": 68,
       "created": "2025-08-29",
       "pushed": "2026-07-24",
