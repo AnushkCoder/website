@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-28T09:04:32.524Z",
+  "generated": "2026-07-29T09:08:38.262Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 190376,
-      "forks": 24175,
+      "stars": 190734,
+      "forks": 24265,
       "created": "2025-04-30",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 102014,
-      "forks": 15296,
+      "stars": 102297,
+      "forks": 15349,
       "created": "2025-04-13",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 82364,
-      "forks": 10553,
+      "stars": 82464,
+      "forks": 10581,
       "created": "2024-03-13",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 65122,
-      "forks": 6994,
+      "stars": 65164,
+      "forks": 7002,
       "created": "2024-07-06",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 79387,
-      "forks": 9754,
+      "stars": 80055,
+      "forks": 9856,
       "created": "2025-08-09",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 51834,
-      "forks": 5757,
+      "stars": 51888,
+      "forks": 5789,
       "created": "2024-08-23",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 47751,
-      "forks": 4778,
+      "stars": 47772,
+      "forks": 4781,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,8 +65,8 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35152,
-      "forks": 5124,
+      "stars": 35174,
+      "forks": 5133,
       "created": "2023-05-24",
       "pushed": "2026-07-28",
       "d7": 0,
@@ -74,34 +74,34 @@
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 26387,
-      "forks": 2727,
+      "stars": 26417,
+      "forks": 2735,
       "created": "2025-06-26",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 26903,
-      "forks": 2089,
+      "stars": 26917,
+      "forks": 2097,
       "created": "2025-05-21",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26569,
-      "forks": 2979,
+      "stars": 26595,
+      "forks": 2982,
       "created": "2025-03-10",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15544,
+      "stars": 15542,
       "forks": 1166,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
@@ -110,19 +110,19 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7463,
+      "stars": 7464,
       "forks": 1440,
       "created": "2024-12-08",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4372,
+      "stars": 4373,
       "forks": 398,
       "created": "2023-03-24",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -137,10 +137,10 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 780,
-      "forks": 70,
+      "stars": 779,
+      "forks": 72,
       "created": "2025-08-29",
-      "pushed": "2026-07-28",
+      "pushed": "2026-07-29",
       "d7": 0,
       "d30": 0,
       "capped": false
