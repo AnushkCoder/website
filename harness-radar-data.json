@@ -1,63 +1,63 @@
 {
-  "generated": "2026-08-06T09:06:01.836Z",
+  "generated": "2026-08-07T07:41:21.858Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 194030,
-      "forks": 24814,
+      "stars": 194477,
+      "forks": 24880,
       "created": "2025-04-30",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 104331,
-      "forks": 15768,
+      "stars": 104536,
+      "forks": 15812,
       "created": "2025-04-13",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 83243,
-      "forks": 10735,
+      "stars": 83335,
+      "forks": 10755,
       "created": "2024-03-13",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 65736,
-      "forks": 7056,
+      "stars": 65807,
+      "forks": 7063,
       "created": "2024-07-06",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 84524,
-      "forks": 10463,
+      "stars": 85016,
+      "forks": 10537,
       "created": "2025-08-09",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 52441,
-      "forks": 5926,
+      "stars": 52494,
+      "forks": 5944,
       "created": "2024-08-23",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 47982,
-      "forks": 4824,
+      "stars": 48009,
+      "forks": 4826,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,8 +65,8 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35342,
-      "forks": 5186,
+      "stars": 35367,
+      "forks": 5192,
       "created": "2023-05-24",
       "pushed": "2026-08-06",
       "d7": 0,
@@ -74,35 +74,35 @@
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 26768,
-      "forks": 2792,
+      "stars": 26806,
+      "forks": 2800,
       "created": "2025-06-26",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 27112,
-      "forks": 2124,
+      "stars": 27140,
+      "forks": 2128,
       "created": "2025-05-21",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26735,
-      "forks": 3017,
+      "stars": 26753,
+      "forks": 3020,
       "created": "2025-03-10",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15571,
-      "forks": 1168,
+      "stars": 15573,
+      "forks": 1167,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
       "d7": 0,
@@ -113,23 +113,23 @@
       "stars": 7483,
       "forks": 1440,
       "created": "2024-12-08",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4374,
-      "forks": 398,
+      "stars": 4377,
+      "forks": 399,
       "created": "2023-03-24",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "truffle-ai/dexto": {
       "stars": 645,
-      "forks": 72,
+      "forks": 73,
       "created": "2025-03-24",
       "pushed": "2026-08-04",
       "d7": 0,
@@ -137,10 +137,10 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 793,
+      "stars": 795,
       "forks": 75,
       "created": "2025-08-29",
-      "pushed": "2026-08-05",
+      "pushed": "2026-08-06",
       "d7": 0,
       "d30": 0,
       "capped": false
