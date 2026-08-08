@@ -1,45 +1,45 @@
 {
-  "generated": "2026-08-07T07:41:21.858Z",
+  "generated": "2026-08-08T07:15:14.640Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 194477,
-      "forks": 24880,
+      "stars": 194867,
+      "forks": 24927,
       "created": "2025-04-30",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 104536,
-      "forks": 15812,
+      "stars": 104707,
+      "forks": 15833,
       "created": "2025-04-13",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 83335,
-      "forks": 10755,
+      "stars": 83427,
+      "forks": 10771,
       "created": "2024-03-13",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 65807,
-      "forks": 7063,
+      "stars": 65852,
+      "forks": 7073,
       "created": "2024-07-06",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 85016,
-      "forks": 10537,
+      "stars": 85382,
+      "forks": 10594,
       "created": "2025-08-09",
       "pushed": "2026-08-07",
       "d7": 0,
@@ -47,8 +47,8 @@
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 52494,
-      "forks": 5944,
+      "stars": 52542,
+      "forks": 5954,
       "created": "2024-08-23",
       "pushed": "2026-08-07",
       "d7": 0,
@@ -56,8 +56,8 @@
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 48009,
-      "forks": 4826,
+      "stars": 48047,
+      "forks": 4828,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,44 +65,44 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35367,
-      "forks": 5192,
+      "stars": 35378,
+      "forks": 5197,
       "created": "2023-05-24",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-07",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 26806,
-      "forks": 2800,
+      "stars": 26836,
+      "forks": 2809,
       "created": "2025-06-26",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 27140,
-      "forks": 2128,
+      "stars": 27168,
+      "forks": 2130,
       "created": "2025-05-21",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26753,
-      "forks": 3020,
+      "stars": 26770,
+      "forks": 3019,
       "created": "2025-03-10",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15573,
-      "forks": 1167,
+      "stars": 15575,
+      "forks": 1169,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
       "d7": 0,
@@ -110,19 +110,19 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7483,
-      "forks": 1440,
+      "stars": 7481,
+      "forks": 1438,
       "created": "2024-12-08",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4377,
+      "stars": 4378,
       "forks": 399,
       "created": "2023-03-24",
-      "pushed": "2026-08-07",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -137,10 +137,10 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 795,
+      "stars": 799,
       "forks": 75,
       "created": "2025-08-29",
-      "pushed": "2026-08-06",
+      "pushed": "2026-08-08",
       "d7": 0,
       "d30": 0,
       "capped": false
