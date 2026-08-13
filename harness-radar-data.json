@@ -1,63 +1,63 @@
 {
-  "generated": "2026-08-12T07:51:52.155Z",
+  "generated": "2026-08-13T07:52:58.179Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 196360,
-      "forks": 25217,
+      "stars": 196800,
+      "forks": 25291,
       "created": "2025-04-30",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 105437,
-      "forks": 15982,
+      "stars": 105643,
+      "forks": 16023,
       "created": "2025-04-13",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 83772,
-      "forks": 10835,
+      "stars": 83878,
+      "forks": 10860,
       "created": "2024-03-13",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 66031,
-      "forks": 7092,
+      "stars": 66113,
+      "forks": 7099,
       "created": "2024-07-06",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 88029,
-      "forks": 10934,
+      "stars": 89000,
+      "forks": 11063,
       "created": "2025-08-09",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 52705,
-      "forks": 5990,
+      "stars": 52742,
+      "forks": 5998,
       "created": "2024-08-23",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 48137,
-      "forks": 4836,
+      "stars": 48162,
+      "forks": 4835,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,43 +65,43 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35449,
-      "forks": 5214,
+      "stars": 35469,
+      "forks": 5222,
       "created": "2023-05-24",
-      "pushed": "2026-08-11",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 26937,
-      "forks": 2842,
+      "stars": 26959,
+      "forks": 2850,
       "created": "2025-06-26",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 27294,
-      "forks": 2150,
+      "stars": 27325,
+      "forks": 2154,
       "created": "2025-05-21",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26827,
-      "forks": 3046,
+      "stars": 26846,
+      "forks": 3055,
       "created": "2025-03-10",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15582,
+      "stars": 15580,
       "forks": 1171,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
@@ -110,8 +110,8 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7485,
-      "forks": 1438,
+      "stars": 7484,
+      "forks": 1436,
       "created": "2024-12-08",
       "pushed": "2026-08-12",
       "d7": 0,
@@ -119,10 +119,10 @@
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4384,
+      "stars": 4386,
       "forks": 405,
       "created": "2023-03-24",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-13",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -137,7 +137,7 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 798,
+      "stars": 802,
       "forks": 76,
       "created": "2025-08-29",
       "pushed": "2026-08-12",
