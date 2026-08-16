@@ -1,27 +1,27 @@
 {
-  "generated": "2026-08-15T06:57:55.492Z",
+  "generated": "2026-08-16T06:59:10.892Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 197588,
-      "forks": 25428,
+      "stars": 197880,
+      "forks": 25485,
       "created": "2025-04-30",
-      "pushed": "2026-08-15",
+      "pushed": "2026-08-16",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 106009,
-      "forks": 16097,
+      "stars": 106171,
+      "forks": 16122,
       "created": "2025-04-13",
-      "pushed": "2026-08-15",
+      "pushed": "2026-08-16",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 84076,
-      "forks": 10901,
+      "stars": 84155,
+      "forks": 10925,
       "created": "2024-03-13",
       "pushed": "2026-08-15",
       "d7": 0,
@@ -29,17 +29,17 @@
       "capped": true
     },
     "cline/cline": {
-      "stars": 66208,
-      "forks": 7113,
+      "stars": 66248,
+      "forks": 7125,
       "created": "2024-07-06",
-      "pushed": "2026-08-15",
+      "pushed": "2026-08-16",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 90580,
-      "forks": 11239,
+      "stars": 91038,
+      "forks": 11297,
       "created": "2025-08-09",
       "pushed": "2026-08-15",
       "d7": 0,
@@ -47,8 +47,8 @@
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 52822,
-      "forks": 6008,
+      "stars": 52853,
+      "forks": 6016,
       "created": "2024-08-23",
       "pushed": "2026-08-14",
       "d7": 0,
@@ -56,8 +56,8 @@
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 48231,
-      "forks": 4843,
+      "stars": 48254,
+      "forks": 4845,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,26 +65,26 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35486,
-      "forks": 5232,
+      "stars": 35496,
+      "forks": 5235,
       "created": "2023-05-24",
-      "pushed": "2026-08-14",
-      "d7": 0,
-      "d30": 0,
-      "capped": false
-    },
-    "QwenLM/qwen-code": {
-      "stars": 27016,
-      "forks": 2861,
-      "created": "2025-06-26",
       "pushed": "2026-08-15",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
+    "QwenLM/qwen-code": {
+      "stars": 27057,
+      "forks": 2867,
+      "created": "2025-06-26",
+      "pushed": "2026-08-16",
+      "d7": 0,
+      "d30": 0,
+      "capped": false
+    },
     "charmbracelet/crush": {
-      "stars": 27386,
-      "forks": 2160,
+      "stars": 27405,
+      "forks": 2162,
       "created": "2025-05-21",
       "pushed": "2026-08-14",
       "d7": 0,
@@ -92,8 +92,8 @@
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26877,
-      "forks": 3058,
+      "stars": 26890,
+      "forks": 3056,
       "created": "2025-03-10",
       "pushed": "2026-08-15",
       "d7": 0,
@@ -101,7 +101,7 @@
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15587,
+      "stars": 15586,
       "forks": 1172,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
@@ -110,7 +110,7 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7487,
+      "stars": 7488,
       "forks": 1436,
       "created": "2024-12-08",
       "pushed": "2026-08-15",
@@ -119,16 +119,16 @@
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4389,
-      "forks": 408,
+      "stars": 4390,
+      "forks": 410,
       "created": "2023-03-24",
-      "pushed": "2026-08-15",
+      "pushed": "2026-08-16",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "truffle-ai/dexto": {
-      "stars": 645,
+      "stars": 646,
       "forks": 74,
       "created": "2025-03-24",
       "pushed": "2026-08-12",
@@ -137,7 +137,7 @@
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 802,
+      "stars": 806,
       "forks": 75,
       "created": "2025-08-29",
       "pushed": "2026-08-15",
