@@ -1,45 +1,45 @@
 {
-  "generated": "2026-08-18T07:04:01.771Z",
+  "generated": "2026-08-19T07:05:17.816Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 198597,
-      "forks": 25594,
+      "stars": 198957,
+      "forks": 25663,
       "created": "2025-04-30",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 106554,
-      "forks": 16186,
+      "stars": 106743,
+      "forks": 16215,
       "created": "2025-04-13",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 84360,
-      "forks": 10960,
+      "stars": 84446,
+      "forks": 10993,
       "created": "2024-03-13",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 66382,
-      "forks": 7137,
+      "stars": 66449,
+      "forks": 7149,
       "created": "2024-07-06",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 92660,
-      "forks": 11472,
+      "stars": 93404,
+      "forks": 11566,
       "created": "2025-08-09",
       "pushed": "2026-08-18",
       "d7": 0,
@@ -47,17 +47,17 @@
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 52931,
-      "forks": 6023,
+      "stars": 52975,
+      "forks": 6029,
       "created": "2024-08-23",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 48292,
-      "forks": 4851,
+      "stars": 48322,
+      "forks": 4857,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,44 +65,44 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35524,
-      "forks": 5245,
+      "stars": 35532,
+      "forks": 5258,
       "created": "2023-05-24",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 27134,
-      "forks": 2876,
+      "stars": 27177,
+      "forks": 2883,
       "created": "2025-06-26",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 27465,
-      "forks": 2163,
+      "stars": 27491,
+      "forks": 2166,
       "created": "2025-05-21",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 26909,
-      "forks": 3064,
+      "stars": 26923,
+      "forks": 3068,
       "created": "2025-03-10",
-      "pushed": "2026-08-17",
+      "pushed": "2026-08-18",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
-      "stars": 15590,
-      "forks": 1171,
+      "stars": 15588,
+      "forks": 1172,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
       "d7": 0,
@@ -110,10 +110,10 @@
       "capped": false
     },
     "tailcallhq/forgecode": {
-      "stars": 7496,
-      "forks": 1438,
+      "stars": 7497,
+      "forks": 1437,
       "created": "2024-12-08",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -122,25 +122,25 @@
       "stars": 4390,
       "forks": 410,
       "created": "2023-03-24",
-      "pushed": "2026-08-18",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "truffle-ai/dexto": {
-      "stars": 646,
+      "stars": 647,
       "forks": 74,
       "created": "2025-03-24",
-      "pushed": "2026-08-12",
+      "pushed": "2026-08-18",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "vinhnx/vtcode": {
-      "stars": 808,
+      "stars": 809,
       "forks": 75,
       "created": "2025-08-29",
-      "pushed": "2026-08-16",
+      "pushed": "2026-08-19",
       "d7": 0,
       "d30": 0,
       "capped": false
