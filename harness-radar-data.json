@@ -1,63 +1,63 @@
 {
-  "generated": "2026-09-16T11:34:40.646Z",
+  "generated": "2026-09-17T11:41:54.210Z",
   "repos": {
     "anomalyco/opencode": {
-      "stars": 207800,
-      "forks": 27282,
+      "stars": 208038,
+      "forks": 27336,
       "created": "2025-04-30",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "openai/codex": {
-      "stars": 124645,
-      "forks": 19267,
+      "stars": 124894,
+      "forks": 19329,
       "created": "2025-04-13",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "OpenHands/OpenHands": {
-      "stars": 88109,
-      "forks": 11565,
+      "stars": 88258,
+      "forks": 11589,
       "created": "2024-03-13",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "cline/cline": {
-      "stars": 68167,
-      "forks": 7372,
+      "stars": 68530,
+      "forks": 7403,
       "created": "2024-07-06",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "earendil-works/pi": {
-      "stars": 106135,
-      "forks": 13349,
+      "stars": 106537,
+      "forks": 13413,
       "created": "2025-08-09",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "aaif-goose/goose": {
-      "stars": 54343,
-      "forks": 6246,
+      "stars": 54379,
+      "forks": 6255,
       "created": "2024-08-23",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": true
     },
     "Aider-AI/aider": {
-      "stars": 48992,
-      "forks": 4954,
+      "stars": 49017,
+      "forks": 4962,
       "created": "2023-05-09",
       "pushed": "2026-05-22",
       "d7": 0,
@@ -65,8 +65,8 @@
       "capped": true
     },
     "continuedev/continue": {
-      "stars": 35930,
-      "forks": 5386,
+      "stars": 35940,
+      "forks": 5394,
       "created": "2023-05-24",
       "pushed": "2026-09-16",
       "d7": 0,
@@ -74,35 +74,35 @@
       "capped": false
     },
     "QwenLM/qwen-code": {
-      "stars": 27892,
-      "forks": 3045,
+      "stars": 27917,
+      "forks": 3053,
       "created": "2025-06-26",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "charmbracelet/crush": {
-      "stars": 28122,
-      "forks": 2244,
+      "stars": 28144,
+      "forks": 2250,
       "created": "2025-05-21",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "Kilo-Org/kilocode": {
-      "stars": 27324,
-      "forks": 3164,
+      "stars": 27333,
+      "forks": 3165,
       "created": "2025-03-10",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "plandex-ai/plandex": {
       "stars": 15638,
-      "forks": 1175,
+      "forks": 1173,
       "created": "2023-10-24",
       "pushed": "2025-10-03",
       "d7": 0,
@@ -113,16 +113,16 @@
       "stars": 7633,
       "forks": 1464,
       "created": "2024-12-08",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "gptme/gptme": {
-      "stars": 4415,
+      "stars": 4416,
       "forks": 431,
       "created": "2023-03-24",
-      "pushed": "2026-09-16",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
@@ -131,14 +131,14 @@
       "stars": 650,
       "forks": 79,
       "created": "2025-03-24",
-      "pushed": "2026-09-08",
+      "pushed": "2026-09-17",
       "d7": 0,
       "d30": 0,
       "capped": false
     },
     "vinhnx/vtcode": {
       "stars": 846,
-      "forks": 83,
+      "forks": 84,
       "created": "2025-08-29",
       "pushed": "2026-09-15",
       "d7": 0,
